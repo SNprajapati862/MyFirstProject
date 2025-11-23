@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page 2</title>
+  <style>
+body {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+/* When the body is fully visible */
+body.fade.loaded {
+  opacity: 1;
+}
+
+/* Optional styling */
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: system-ui, sans-serif;
+  height: 100vh;
+  margin: 0;
+  background: linear-gradient(135deg, #dbeafe, #eff6ff);
+}
+
+a {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #2563eb;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+a:hover {
+  background: #1d4ed8;
+}
+
+</style>
+</head>
+<body class="fade">
+  <h1>This is Page 2</h1>
+  <a href="test.html" class="transition-link">Back to Page 1</a>
+
+  <script src="test.js"></script>
+</body>
+</html>

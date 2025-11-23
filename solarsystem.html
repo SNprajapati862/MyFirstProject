@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  
+    <style>
+       *{
+        font-family: 'Baskerville Old Face';
+      }
+          :root{
+      --panel: #000000;    
+      --panel-2:#0a0dd568;  
+      --text: #e5e7eb;    
+      --shadow: 0 10px 30px rgba(0,0,0,.45);
+    }
+    *{ box-sizing:border-box; }
+    
+    body{
+      background-image:url('photo/dark-blue-gradient-s6b0i75a8th7ko62.jpg');
+    background-size: cover;
+      margin:0; 
+    
+     padding:24px;
+    }
+    h1{
+      text-align: center;
+    }
+    .calc{
+      padding:10px;
+        float: right;
+      width:650px;
+      height:500px;
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border:1px solid #111827; border-radius:20px; box-shadow:var(--shadow);
+      overflow:hidden; display:grid; grid-template-rows:auto 1fr;
+    }
+    .cool{
+     text-align: center;
+    }        
+ body {
+      opacity: 1;
+      transition: opacity 0.5s;
+    }
+    body.fade-out {
+      opacity: 0;
+    }
+
+    </style>
+    <title>Solar System</title>
+</head>
+<body>
+  <h1 style="text-align: center;"><font color="white">Solar System</font></h1>
+  <div class="calc">
+    <h1><font color="white">Solar System</font></h1>
+    <ul><font color="white" size="4">
+    <li>Our solar system consists of the Sun and all the objects gravitationally bound to it, including eight planets, dwarf planets, moons, asteroids, and comets.</li>
+    <br>
+    <li>The eight planets are Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune.</li>
+    <br>
+    <li>The Solar System is about 4.6 billion years old.</li>
+    <br>
+    <li>The solar system formed by collapsing cloud of gas and dust called a solar nebula.</li>
+    <br>
+    <li>Everything in the Solar System orbits around the Sun due to its powerful gravity.</li>
+    <br>
+    <li>The edge of the Solar System extends far beyond Neptune into the Kuiper Belt and the Oort Cloud.</li>
+    <br>
+    <li>To learn more about earth,sun and moon click on the images of them.</li>
+  </font></ul>
+  </div>
+     <image id="next4"src="C:\Users\praja\OneDrive\Documents\GitHub\MyFirstProject\photo\Screenshot 2025-11-04 103247.png"width="800px" height="500px"></image>
+     <br> <br><br>
+     <div class="cool">
+     <image id="next"src="C:\Users\praja\OneDrive\Documents\GitHub\MyFirstProject\photo\Planet-Earth-Transparent-Images.png"width="435px" height="335px"></image>
+    
+    <image id="next2"src="C:\Users\praja\OneDrive\Documents\GitHub\MyFirstProject\photo\Sun Transparent Background PNG Transparent With Clear Background ID 87016 _ TopPNG.png"width="375px" height="375px"></image>
+
+        <image id="next3"src="C:\Users\praja\OneDrive\Documents\GitHub\MyFirstProject\photo\vecteezy_moon-on-transparent-background_48105776.png" width="360px" height="360px"></image>
+    <h1 style="margin-left: 55px; word-spacing: 325px;"><font color="white">Earth Sun Moon</font></h1>
+    <h3><font color="white">To go back click on solar system</font></h3>
+
+</div>
+<script>
+    document.getElementById("next").addEventListener("click", () => {
+      document.body.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = "earth.html";
+      }, 500); // matches CSS duration
+    });
+    document.getElementById("next2").addEventListener("click", () => {
+      document.body.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = "sun.html";
+      }, 500); // matches CSS duration
+    });
+    document.getElementById("next3").addEventListener("click", () => {
+      document.body.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = "moon.html";
+      }, 500); // matches CSS duration
+    });
+    document.getElementById("next4").addEventListener("click", () => {
+      document.body.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = "website.html";
+      }, 500); // matches CSS duration
+    });
+  </script>
+    <br>
+    
+</body>
+</html>

@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>Page 2</title>
+    <style>
+        body {
+            opacity: 1;
+            transition: opacity 0.5s;
+        }
+        body.fade-out {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Page 2</h1>
+    <button id="back">Go back to Page 1</button>
+
+    <script>
+        document.getElementById("back").addEventListener("click", () => {
+            document.body.classList.add("fade-out");
+            setTimeout(() => {
+                window.location.href = "hi.html";
+            }, 500); // matches CSS duration
+        });
+    </script>
+</body>
+</html>

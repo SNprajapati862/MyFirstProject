@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+       *{
+        font-family: 'Baskerville Old Face';
+      }
+ :root{
+      --panel: #000000;    
+      --panel-2:#0a0dd568;  
+      --text: #e5e7eb;    
+      --shadow: 0 10px 30px rgba(0,0,0,.45);
+        }
+        *{ box-sizing:border-box; }
+        h1{
+          text-align: center;
+        }
+   .calc{
+        float: right;
+      width:850px;
+      height:650px;
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border:1px solid #111827; border-radius:20px; box-shadow:var(--shadow);
+      overflow:hidden; display:grid; grid-template-rows:auto 1fr;
+    }
+    .cool{
+      width:450px;
+      height:600px;
+        display:grid; 
+      place-items:center;
+    }
+body {
+ margin:24px;
+background-image:url('photo/dark-blue-gradient-s6b0i75a8th7ko62.jpg');
+    background-size: cover;
+    padding:24px;
+}
+body {
+    opacity: 1;
+    transition: opacity 0.5s;
+  }
+  body.fade-out {
+    opacity: 0;
+  }
+    </style>
+    <title>Moon</title>
+</head>
+<body>
+    <div class="calc">
+    <h1><font color="white">Moon</font></h1>
+    <ul><font color="white" size="5">
+    <li>The Moon is Earth's only natural satellite.</li><br>
+    <li>It is about 238,855 miles (384,400 kilometers) from Earth.</li><br>
+    <li>The Moon is Earth’s only natural satellite and the fifth-largest moon in the Solar System.</li><br>
+    <li>It is the brightest object in our night sky and has fascinated humans for thousands of years.</li><br>
+    <li>The Moon always shows the same side to Earth — it’s tidally locked.</li><br>
+    <li>he far side of the Moon was unseen until space probes photographed it.</li><br>
+    <li>Temperatures range from +127°C (day) to −173°C (night).</li><br>
+    <li>The Moon is slowly moving away from Earth — about 3.8 cm per year!</li><br>
+    <li>Earth has one moon and Jupiter and Saturn each have more than 80 moons!</li><br>
+    </font></ul>
+    </div>
+    <br>
+    <div class="cool">
+    <image id="next"src="C:\Users\praja\OneDrive\Documents\GitHub\MyFirstProject\photo\vecteezy_moon-on-transparent-background_48105776.png"width="500px" height="500px"></image>
+    </div>
+    <br><br><br><br><br>
+    <h3 style="text-align: center;"><font color="white">To go back click on moon</font></h3>
+<script>
+    document.getElementById("next").addEventListener("click", () => {
+      document.body.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = "solarsystem.html";
+      }, 500); // matches CSS duration
+    });
+  </script>
+</body>
+</html>

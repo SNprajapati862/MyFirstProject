@@ -1,15 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>My First Web Page</title>
-<style>
+    <style>
+      *{
+        font-family: 'Baskerville Old Face';
+      }
 body {
-    background-image: url("background.jpg");
+    text-align: center;
+background-image:url('photo/La Noche, Universo, Nebulosa Imágenes de fondo gratuitas, Star Espacio Estrellas La Astronomía Antecedentes Foto de fondo PNG y vectores.jpg');
+    background-size: cover;
 }
+body {
+    opacity: 1;
+    transition: opacity 0.5s;
+  }
+  body.fade-out {
+    opacity: 0;
+  }
 </style>
+<title>My First Web Page</title>
 </head>
 <body>
-<h1>My First Web Page</h1>
-<p>This is a paragraph.</p>
+  <h1><font color="white">Click on the image to learn more about them</font></h1>
+        <image id="next"src="C:\Users\praja\OneDrive\Documents\GitHub\MyFirstProject\photo\Screenshot 2025-11-04 103247.png"width="900px" height="600px"></image>
+    <br>
+    <h1><font color="white">Solar System</font></h1>
+       <image id="next2"src="C:\Users\praja\OneDrive\Documents\GitHub\MyFirstProject\photo\Screenshot 2025-11-05 223516.png"width="900px" height="550px"></image>
+    <h1><font color="white">Galaxy</font></h1>
+    <script>
+        document.getElementById("next").addEventListener("click", () => {
+          document.body.classList.add("fade-out");
+          setTimeout(() => {
+            window.location.href = "solarsystem.html";
+          }, 500); // matches CSS duration
+        });
+        document.getElementById("next2").addEventListener("click", () => {
+          document.body.classList.add("fade-out");
+          setTimeout(() => {
+            window.location.href = "glaxy.html";
+          }, 500); // matches CSS duration
+        });
+      </script>   
 </body>
 </html>

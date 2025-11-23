@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+       *{
+        font-family: 'Baskerville Old Face';
+      }
+        :root{
+      --panel: #000000;    
+      --panel-2:#0a0dd568;  
+      --text: #e5e7eb;    
+      --shadow: 0 10px 30px rgba(0,0,0,.45);
+        }
+        *{ box-sizing:border-box; }
+        h1{
+          text-align: center;
+        }
+   .calc{
+        float: right;
+      width:700px;
+      height:700px;
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border:1px solid #111827; border-radius:20px; box-shadow:var(--shadow);
+      overflow:hidden; display:grid; grid-template-rows:auto 1fr;
+    }
+    .cool{
+      width:350px;
+      height:500px;
+        display:grid; 
+      place-items:center;
+    }
+body {
+  
+ margin:24px;
+background-image:url('photo/dark-blue-gradient-s6b0i75a8th7ko62.jpg');
+    background-size: cover;
+    padding:24px;
+}
+body {
+    opacity: 1;
+    transition: opacity 0.5s;
+  }
+  body.fade-out {
+    opacity: 0;
+  }
+    </style>
+    <title>Earth</title>
+</head>
+<body>
+  <div class="calc">
+    <h1><font color="white">Earth</font></h1>
+    <ul><font color="white" size="5">
+    <li>Earth is the third planet from the Sun.</li><br>
+    <li>the only known planet in the universe that supports life.</li><br>
+    <li>It has the right conditions — air, water, temperature, and gravity — to sustain millions of species, including humans.</li><br>
+    <li>About 71% of Earth’s surface is covered by water, mainly in oceans, seas, rivers, and lakes.</li><br>
+    <li>The remaining 29% is land, made up of continents and islands.</li><br>
+    <li>Earth is about 12,742 km (7,918 miles) in diameter.</li><br>
+    <li>About 8 billion people live on Earth.</li><br>
+    <li>Earth’s gravity keeps the atmosphere and everything on its surface in place.</li><br>
+    <li>The planet’s magnetic field protects us from solar winds.</li>
+    </font></ul>
+    </div>
+    <br>
+    <div class="cool">
+     <image id="next" src="C:\Users\praja\OneDrive\Documents\GitHub\MyFirstProject\photo\Planet-Earth-Transparent-Images.png"width="600px" height="450px"></image>
+    </div>
+    <br><br><br><br><br><br><br><br><br><br>
+    <h3 style="text-align: center;"><font color="white">To go back click on earth</font></h3>
+<script>
+    document.getElementById("next").addEventListener("click", () => {
+      document.body.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = "solarsystem.html";
+      }, 500); // matches CSS duration
+    });
+  </script>
+</body>
+</html>

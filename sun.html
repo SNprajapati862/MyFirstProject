@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+       *{
+        font-family: 'Baskerville Old Face';
+      }
+  :root{
+      --panel: #000000;    
+      --panel-2:#fc9b2c;  
+      --text: #000000;    
+      --shadow: 0 10px 30px rgba(0,0,0,.45);
+        }
+        *{ box-sizing:border-box; }
+        h1{
+          text-align: center;
+        }
+   .calc{
+    padding:20px;
+        float: right;
+     width:800px;
+      height:600px;
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border:1px solid #111827; border-radius:20px; box-shadow:var(--shadow);
+      overflow:hidden; display:grid; grid-template-rows:auto 1fr;
+    }
+body {
+ margin:24px;
+background-image:url('photo/orange-and-black-background-1920-x-1080-9vyxibibd402vocm.jpg');
+    background-size: cover;
+    padding:24px;
+}
+.cool{
+      width:350px;
+      height:500px;
+        display:grid; 
+      place-items:center;
+    }
+body {
+    opacity: 1;
+    transition: opacity 0.5s;
+  }
+  body.fade-out {
+    opacity: 0;
+  }
+    </style>
+    <title>Sun</title>
+</head>
+<body>
+    <div class="calc">
+    <h1><font color="white">Sun</font></h1>
+    <ul><font color="white" size="5">
+    <li>The Sun makes up over 99.8% of the total mass of the Solar System.</li>
+    <br>
+    <li>It provides the light and heat necessary for life on Earth.</li>
+    <br>
+    <li>It is a G-type main-sequence star, also known as a yellow dwarf.</li>
+    <br>
+    <li>It is about 93 million miles (150 million kilometers) from Earth.</li>
+    <br>
+    <li>It’s a huge ball of hot gases, mainly hydrogen and helium, undergoing constant nuclear fusion.</li>
+    <br>
+    <li>Light from the Sun takes about 8 minutes and 20 seconds to reach Earth.</li>
+    <br>
+    <li>Its gravity holds the system together and provides heat and light.</li>
+    <br>
+    <li>it is the largest object and contains over 99% of the solar system's mass.</li>
+    </font></ul>
+    </div>
+    <br>
+    <div class="cool">
+    <image id="next"src="C:\Users\praja\OneDrive\Documents\GitHub\MyFirstProject\photo\Sun Transparent Background PNG Transparent With Clear Background ID 87016 _ TopPNG.png"width="500px" height="500px"></image>
+    </div>
+    <br><br><br><br><br>
+    <h3 style="text-align: center;"><font color="white">To go back click on sun</font></h3>
+<script>
+    document.getElementById("next").addEventListener("click", () => {
+      document.body.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = "solarsystem.html";
+      }, 500); // matches CSS duration
+    });
+  </script>
+</body>
+</html>

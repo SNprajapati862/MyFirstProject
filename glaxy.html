@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+       *{
+        font-family: 'Baskerville Old Face';
+      }
+      :root{
+      --panel: #000000;    
+      --panel-2:#0a0dd568;  
+      --text: #e5e7eb;    
+      --shadow: 0 10px 30px rgba(0,0,0,.45);
+        }
+        *{ box-sizing:border-box; }
+        h2{
+          text-align: center;
+        }
+
+   .calc{
+        float: right;
+     width:750px;
+      height:650px;
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border:1px solid #111827; border-radius:20px; box-shadow:var(--shadow);
+      overflow:hidden; display:grid; grid-template-rows:auto 1fr;
+    }
+     .cool{
+      width:450px;
+      height:600px;
+        display:grid; 
+      place-items:center;
+    }
+        body {
+          margin:5px;
+            background-image:url('photo/pexels-felix-mittermeier-1146134.jpg.');
+            background-size: cover;
+            padding:24px;
+        }
+        body {
+            opacity: 1;
+            transition: opacity 0.5s;
+          }
+          body.fade-out {
+            opacity: 0;
+          }
+    </style>
+    <title>Glaxy</title>
+</head>
+<body>
+    <div class="calc">
+    <h2><font color="white">Glaxy</font></h2>
+    <ul><font color="white" size="5">
+    <li>A galaxy is a vast collection of stars, planets, gas, dust, and dark matter all held together by gravity.</li><br>
+    <li>Galaxies are the building blocks of the universe, containing billions or even trillions of stars.</li><br>
+    <li>Our Solar System is part of a galaxy called the Milky Way.</li><br>
+    <li>Our home galaxy —a spiral galaxy about 100,000 light-years across.</li><br>
+    <li>Contains over 100 billion stars, including our Sun.</li><br>
+    <li>At its center is a supermassive black hole named Sagittarius A*.</li><br>
+    <li>There are over 2 trillion galaxies in the observable universe.</li><br>
+    <li>Galaxies often form clusters and superclusters, linked together by gravity.</li><br>
+    <li>The light from distant galaxies takes millions or billions of years to reach us — when we see them, we’re looking back in time!</li><br>
+    </font></ul>
+    </div>
+    <br>
+    <div class="cool">
+    <image id="next"src="C:\Users\praja\OneDrive\Documents\GitHub\MyFirstProject\photo\Screenshot 2025-11-05 223516.png"></image>
+    </div>
+    <br><br>
+    <h3 style="text-align: center;"><font color="white">To go back click on glaxy</font></h3>
+    <script>
+        document.getElementById("next").addEventListener("click", () => {
+          document.body.classList.add("fade-out");
+          setTimeout(() => {
+            window.location.href = "website.html";
+          }, 500); // matches CSS duration
+        });
+      </script>
+</body>
+</html>
