@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
        *{
         font-family: 'Baskerville Old Face';
@@ -36,13 +38,6 @@ background-image:url('photo/orange-and-black-background-1920-x-1080-9vyxibibd402
         display:grid; 
       place-items:center;
     }
-body {
-    opacity: 1;
-    transition: opacity 0.5s;
-  }
-  body.fade-out {
-    opacity: 0;
-  }
     </style>
     <title>Sun</title>
 </head>
@@ -69,17 +64,20 @@ body {
     </div>
     <br>
     <div class="cool">
-    <image id="next"src="photo\Sun Transparent Background PNG Transparent With Clear Background ID 87016 _ TopPNG.png"width="500px" height="500px"></image>
+      <a href="solarsystem.html" id="next">
+    <img src="photo/Sun Transparent Background PNG Transparent With Clear Background ID 87016 _ TopPNG.png"width="500px" height="500px">
+    </a>
     </div>
     <br><br><br><br><br>
     <h3 style="text-align: center;"><font color="white">To go back click on sun</font></h3>
-<script>
-    document.getElementById("next").addEventListener("click", () => {
-      document.body.classList.add("fade-out");
-      setTimeout(() => {
-        window.location.href = "solarsystem.html";
-      }, 500); // matches CSS duration
+      <script>
+       $("body").hide().fadeIn(1000);
+      $("#next").click(function(e) {
+    e.preventDefault();
+    $("body").fadeOut(1000, function() {
+        window.location = "solarsystem.html";
     });
-  </script>
+});
+</script>
 </body>
 </html>

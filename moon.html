@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
        *{
         font-family: 'Baskerville Old Face';
@@ -35,13 +36,6 @@ background-image:url('photo/dark-blue-gradient-s6b0i75a8th7ko62.jpg');
     background-size: cover;
     padding:24px;
 }
-body {
-    opacity: 1;
-    transition: opacity 0.5s;
-  }
-  body.fade-out {
-    opacity: 0;
-  }
     </style>
     <title>Moon</title>
 </head>
@@ -62,17 +56,20 @@ body {
     </div>
     <br>
     <div class="cool">
-    <image id="next"src="photo\vecteezy_moon-on-transparent-background_48105776.png"width="500px" height="500px"></image>
+    <a href="solarsystem.html" id="next">
+    <img src="photo/vecteezy_moon-on-transparent-background_48105776.png"width="500px" height="500px">
+    </a>
     </div>
     <br><br><br><br><br>
     <h3 style="text-align: center;"><font color="white">To go back click on moon</font></h3>
-<script>
-    document.getElementById("next").addEventListener("click", () => {
-      document.body.classList.add("fade-out");
-      setTimeout(() => {
-        window.location.href = "solarsystem.html";
-      }, 500); // matches CSS duration
+    <script>
+       $("body").hide().fadeIn(1000);
+      $("#next").click(function(e) {
+    e.preventDefault();
+    $("body").fadeOut(1000, function() {
+        window.location = "solarsystem.html";
     });
-  </script>
+});
+</script>
 </body>
 </html>

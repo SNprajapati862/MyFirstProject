@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
        *{
         font-family: 'Baskerville Old Face';
@@ -32,17 +33,10 @@
     }
         body {
           margin:5px;
-            background-image:url('photo/pexels-felix-mittermeier-1146134.jpg.');
+            background-image:url('photo/pexels-felix-mittermeier-1146134.jpg');
             background-size: cover;
             padding:24px;
         }
-        body {
-            opacity: 1;
-            transition: opacity 0.5s;
-          }
-          body.fade-out {
-            opacity: 0;
-          }
     </style>
     <title>Glaxy</title>
 </head>
@@ -63,17 +57,22 @@
     </div>
     <br>
     <div class="cool">
-    <image id="next"src="photo\Screenshot 2025-11-05 223516.png"></image>
+      <a href="website.html" id="back">
+    <img src="photo/Screenshot 2025-11-05 223516.png">
+    </a>
     </div>
     <br><br>
     <h3 style="text-align: center;"><font color="white">To go back click on glaxy</font></h3>
     <script>
-        document.getElementById("next").addEventListener("click", () => {
-          document.body.classList.add("fade-out");
-          setTimeout(() => {
-            window.location.href = "website.html";
-          }, 500); // matches CSS duration
-        });
+$("body").hide().fadeIn(1000);
+
+$("#back").click(function(e) {
+    e.preventDefault();
+
+    $("body").fadeOut(1000, function() {
+        window.location = "website.html";
+    });
+});
       </script>
 </body>
 </html>

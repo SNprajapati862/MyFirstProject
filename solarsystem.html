@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
        *{
         font-family: 'Baskerville Old Face';
@@ -37,14 +37,6 @@
     .cool{
      text-align: center;
     }        
- body {
-      opacity: 1;
-      transition: opacity 0.5s;
-    }
-    body.fade-out {
-      opacity: 0;
-    }
-
     </style>
     <title>Solar System</title>
 </head>
@@ -68,45 +60,61 @@
     <li>To learn more about earth,sun and moon click on the images of them.</li>
   </font></ul>
   </div>
-     <image id="next4"src="photo\Screenshot 2025-11-04 103247.png"width="800px" height="500px"></image>
+  <a href="website.html" id="next4">
+     <img src="photo/Screenshot 2025-11-04 103247.png"width="800px" height="500px">
+     </a>
      <br> <br><br>
      <div class="cool">
-     <image id="next"src="photo\Planet-Earth-Transparent-Images.png"width="435px" height="335px"></image>
+      <a href="earth.html" id="next">
+     <img src="photo/Planet-Earth-Transparent-Images.png"width="435px" height="335px">
+     </a>
     
-    <image id="next2"src="photo\Sun Transparent Background PNG Transparent With Clear Background ID 87016 _ TopPNG.png"width="375px" height="375px"></image>
+    <a href="sun.html" id="next2">
+    <img src="photo/Sun Transparent Background PNG Transparent With Clear Background ID 87016 _ TopPNG.png"width="375px" height="375px">
+    </a>
 
-        <image id="next3"src="photo\vecteezy_moon-on-transparent-background_48105776.png" width="360px" height="360px"></image>
+    <a href="moon.html" id="next3">
+        <img src="photo/vecteezy_moon-on-transparent-background_48105776.png" width="360px" height="360px">
+    </a>
     <h1 style="margin-left: 55px; word-spacing: 325px;"><font color="white">Earth Sun Moon</font></h1>
     <h3><font color="white">To go back click on solar system</font></h3>
 
 </div>
-<script>
-    document.getElementById("next").addEventListener("click", () => {
-      document.body.classList.add("fade-out");
-      setTimeout(() => {
-        window.location.href = "earth.html";
-      }, 500); // matches CSS duration
-    });
-    document.getElementById("next2").addEventListener("click", () => {
-      document.body.classList.add("fade-out");
-      setTimeout(() => {
-        window.location.href = "sun.html";
-      }, 500); // matches CSS duration
-    });
-    document.getElementById("next3").addEventListener("click", () => {
-      document.body.classList.add("fade-out");
-      setTimeout(() => {
-        window.location.href = "moon.html";
-      }, 500); // matches CSS duration
-    });
-    document.getElementById("next4").addEventListener("click", () => {
-      document.body.classList.add("fade-out");
-      setTimeout(() => {
-        window.location.href = "website.html";
-      }, 500); // matches CSS duration
-    });
-  </script>
     <br>
-    
+    <script>
+        $("body").hide().fadeIn(1000);
+
+$("#next4").click(function(e) {
+    e.preventDefault();
+
+    $("body").fadeOut(1000, function() {
+        window.location = "website.html";
+    });
+});
+
+$("#next").click(function(e) {
+    e.preventDefault();
+
+    $("body").fadeOut(1000, function() {
+        window.location = "earth.html";
+    });
+});
+
+$("#next2").click(function(e) {
+    e.preventDefault();
+
+    $("body").fadeOut(1000, function() {
+        window.location = "sun.html";
+    });
+});
+
+$("#next3").click(function(e) {
+    e.preventDefault();
+
+    $("body").fadeOut(1000, function() {
+        window.location = "moon.html";
+    });
+});
+    </script>
 </body>
 </html>

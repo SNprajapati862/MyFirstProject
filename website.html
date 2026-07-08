@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
       *{
         font-family: 'Baskerville Old Face';
@@ -10,36 +11,39 @@ body {
 background-image:url('photo/La Noche, Universo, Nebulosa Imágenes de fondo gratuitas, Star Espacio Estrellas La Astronomía Antecedentes Foto de fondo PNG y vectores.jpg');
     background-size: cover;
 }
-body {
-    opacity: 1;
-    transition: opacity 0.5s;
-  }
-  body.fade-out {
-    opacity: 0;
-  }
 </style>
 <title>My First Web Page</title>
 </head>
 <body>
   <h1><font color="white">Click on the image to learn more about them</font></h1>
-        <image id="next"src="photo\Screenshot 2025-11-04 103247.png"width="900px" height="600px"></image>
+  <a href="solarsystem.html" id="next">
+        <img src="photo/Screenshot 2025-11-04 103247.png"width="900px" height="600px">
+    </a>
     <br>
     <h1><font color="white">Solar System</font></h1>
-       <image id="next2"src="photo\Screenshot 2025-11-05 223516.png"width="900px" height="550px"></image>
-    <h1><font color="white">Galaxy</font></h1>
-    <script>
-        document.getElementById("next").addEventListener("click", () => {
-          document.body.classList.add("fade-out");
-          setTimeout(() => {
-            window.location.href = "solarsystem.html";
-          }, 500); // matches CSS duration
-        });
-        document.getElementById("next2").addEventListener("click", () => {
-          document.body.classList.add("fade-out");
-          setTimeout(() => {
-            window.location.href = "glaxy.html";
-          }, 500); // matches CSS duration
-        });
-      </script>   
+    <a href="glaxy.html" id="next2">
+       <img src="photo/Screenshot 2025-11-05 223516.png"width="900px" height="550px">
+    </a>
+    <h1><font color="white">Galaxy</font></h1> 
+ 
+<script>
+$("body").hide().fadeIn(1000);
+
+$("#next").click(function(e) {
+    e.preventDefault();
+
+    $("body").fadeOut(1000, function() {
+        window.location = "solarsystem.html";
+    });
+});
+
+$("#next2").click(function(e) {
+    e.preventDefault();
+
+    $("body").fadeOut(1000, function() {
+        window.location = "glaxy.html";
+    });
+});
+</script>
 </body>
 </html>
