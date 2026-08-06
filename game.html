@@ -1,12 +1,177 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Game</title>
+  <meta charset="UTF-8">
+  <title>Mini Games Hub</title>
+  <style>
+    :root{
+      --panel: #000000;    
+      --panel-2:#0a0dd568;  
+      --text: #e5e7eb;    
+      --shadow: 0 10px 30px rgba(0,0,0,.45);
+        }
+    body {
+    background-image:url('photo/pexels-felix-mittermeier-1146134.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    font-family:Cambria Math;
+    text-align: center;
+    display:grid; place-items:center;
+    }
+
+    h1 {
+      margin-top: 10px;
+    }
+
+    .game {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .memory-grid {
+    background: linear-gradient(180deg, var(--panel), var(--panel-2));
+    border:1px solid #111827; border-radius:20px; box-shadow:var(--shadow);
+    padding: 30px;
+    display: grid;
+    grid-template-columns: repeat(5, 70px);
+    gap: 10px;
+    justify-content: center;
+    }
+
+
+.button {
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  cursor: pointer;
+  width: 90px;
+  height: 30px;
+  background-image: linear-gradient(to top, #D8D9DB 0%, #fff 80%, #FDFDFD 100%);
+  border-radius: 30px;
+  border: 1px solid #8F9092;
+  transition: all 0.2s ease;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #606060;
+  text-shadow: 0 1px #fff;
+}
+
+.button:hover {
+  box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 3px 3px #CECFD1;
+}
+
+.button:active {
+  box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
+}
+
+.button:focus {
+  box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
+}
+
+
+
+
+.card{
+    width:70px;
+    height:70px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(8px);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:30px;
+}
+  </style>
 </head>
 <body>
-    <h1>Game</h1>
+<div id="memory" class="game">
+  <h1>🧠 Memory Game 🎮</h1>
+  <div class="memory-grid" id="memoryGrid"></div>
+</div><br><br>
     <a href="main.html">
-        <button>back</button>
-    </a>
+    <button>back</button>
+  </a>
+<div id="winMessage" style="display:none; margin-top:20px;">
+  <h2>🎉Congratulations!You Won!🎉</h2>
+  <button class="button" onclick="playAgain()">
+Play Again
+  </button><br>
+</div> 
+<script>
+document.getElementById("memory").style.display = "block";
+
+const emojis = [
+  "🍎","🍌","🍇","🍒","🍉","🍍","🍊","🍓","🍑","🥝","🥑","🫐","🥭","🥥","🍋‍🟩",
+  "🍎","🍌","🍇","🍒","🍉","🍍","🍊","🍓","🍑","🥝","🥑","🫐","🥭","🥥","🍋‍🟩"
+];
+
+let shuffled = [];
+let selectedCards = [];
+let matchedPairs = 0;
+
+function startGame() {
+  shuffled = [...emojis].sort(() => Math.random() - 0.5);
+  selectedCards = [];
+  matchedPairs = 0;
+
+  document.getElementById("winMessage").style.display = "none";
+  renderMemory();
+}
+
+function renderMemory() {
+  const grid = document.getElementById("memoryGrid");
+  grid.innerHTML = "";
+
+  shuffled.forEach((emoji, i) => {
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerText = "";
+
+    div.onclick = () => {
+      if (div.innerText !== "" || selectedCards.length === 2) return;
+
+      div.innerText = emoji;
+      selectedCards.push({
+        index: i,
+        element: div
+      });
+
+      if (selectedCards.length === 2) {
+        setTimeout(checkMatch, 500);
+      }
+    };
+
+    grid.appendChild(div);
+  });
+}
+
+function checkMatch() {
+  const [a, b] = selectedCards;
+
+  if (a.index !== b.index && shuffled[a.index] === shuffled[b.index]) {
+    a.element.onclick = null;
+    b.element.onclick = null;
+
+    matchedPairs++;
+    if (matchedPairs === emojis.length / 2) {
+      document.getElementById("winMessage").style.display = "block";
+    }
+  } else {
+    a.element.innerText = "";
+    b.element.innerText = "";
+  }
+
+  selectedCards = [];
+}
+
+function playAgain() {
+  startGame();
+}
+
+startGame();
+</script>
+
 </body>
 </html>
