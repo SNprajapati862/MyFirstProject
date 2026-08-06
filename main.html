@@ -2,31 +2,65 @@
 <html>
 <head>
     <title>Main</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="button.css">
 </head>
 <body class="container1">
-    <h1 style="text-align:center;color:white;">Welcome to my Website</h1>
+    <h1 style="text-align:center;color:white;font-family:Comic Sans MS;">🌐 Welcome to my Website ⭐</h1>
     <div class="container">
     <div class="item">
-        <a href="vcr.html">
+        <a href="vcr.html" id="next1">
         <button>CLASS ROOM</button>
         </a>
     </div>
     <div class="item">
-        <a href="website.html">
+        <a href="website.html" id="next2">
         <button>LEARNING</button>
         </a>
     </div>
     <div class="item">
-        <a href="quiz.html">
+        <a href="quiz.html" id="next3">
         <button>QUIZ</button>
         </a>
     </div>
     <div class="item">
-        <a href="game.html">
+        <a href="game.html" id="next4">
         <button>GAME</button>
         </a>
     </div>
     </div>
+    <script>
+        $("body").hide().fadeIn(1000);
+
+    $("#next1").click(function(e) {
+        e.preventDefault();
+
+        $("body").fadeOut(1000, function() {
+            window.location = "vcr.html";
+        });
+    });
+    $("#next2").click(function(e) {
+        e.preventDefault();
+
+        $("body").fadeOut(1000, function() {
+            window.location = "website.html";
+        });
+    });
+    $("#next3").click(function(e) {
+        e.preventDefault();
+
+        $("body").fadeOut(1000, function() {
+            window.location = "quiz.html";
+        });
+    });
+    $("#next4").click(function(e) {
+        e.preventDefault();
+
+        $("body").fadeOut(1000, function() {
+            window.location = "game.html";
+        });
+    });
+
+    </script>
 </body>
 </html>

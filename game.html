@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Mini Games Hub</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="button1.css">
   <style>
     :root{
       --panel: #000000;    
@@ -52,7 +54,7 @@
   border: 1px solid #8F9092;
   transition: all 0.2s ease;
   font-family: "Source Sans Pro", sans-serif;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   color: #606060;
   text-shadow: 0 1px #fff;
@@ -87,12 +89,12 @@
 </head>
 <body>
 <div id="memory" class="game">
-  <h1>🧠 Memory Game 🎮</h1>
+  <h1 style="font-family: Comic Sans MS;">🧠 Memory Game 🎮</h1>
   <div class="memory-grid" id="memoryGrid"></div>
-</div><br><br>
-    <a href="main.html">
-    <button>back</button>
-  </a>
+</div>
+    <button href="main.html" id="back-link" style="position: absolute; top: 30px; left: 30px;">
+      <span >❮</span>
+    </button>
 <div id="winMessage" style="display:none; margin-top:20px;">
   <h2>🎉Congratulations!You Won!🎉</h2>
   <button class="button" onclick="playAgain()">
@@ -100,6 +102,16 @@ Play Again
   </button><br>
 </div> 
 <script>
+$("body").hide().fadeIn(1000);
+
+$("#back-link").click(function(e) {
+    e.preventDefault();
+
+    $("body").fadeOut(1000, function() {
+        window.location = "main.html";
+    });
+});
+
 document.getElementById("memory").style.display = "block";
 
 const emojis = [

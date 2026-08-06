@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Simple Quiz</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <style>
     :root{
@@ -29,8 +30,8 @@ body{
     margin:50px;
     padding:30px;
 }
-/* From Uiverse.io by lenfear23 */ 
-button {
+
+.button {
   margin: 10px;
   align-items: center;
   justify-content: center;
@@ -49,15 +50,15 @@ button {
   text-shadow: 0 1px #fff;
 }
 
-button:hover {
+.button:hover {
   box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 3px 3px #CECFD1;
 }
 
-button:active {
+.button:active {
   box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
 }
 
-button:focus {
+.button:focus {
   box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
 }
 
@@ -69,7 +70,7 @@ button:focus {
 </head>
 
 <body>
-    <h1>Quiz Time!</h1>
+    <h1 style="font-family: Comic Sans MS;">📝 Quiz Time! 🎓</h1>
 
 <div class="quiz">
 
@@ -79,11 +80,22 @@ button:focus {
 
 <h3 id="result"></h3>
 
-<button id="next" onclick="nextQuestion()">Next</button>
+<button id="next" class="button" onclick="nextQuestion()">Next</button>
 
 </div>
-
+    <button href="main.html" id="back-link" style="position: absolute; top: 30px; left: 30px;"><link rel="stylesheet" href="button1.css">
+      <span >❮</span>
+    </button>
 <script>
+$("body").hide().fadeIn(1000);
+
+$("#back-link").click(function(e) {
+    e.preventDefault();
+
+    $("body").fadeOut(1000, function() {
+        window.location = "main.html";
+    });
+});
 
 
 let allQuestions = [
@@ -419,7 +431,7 @@ let text = "";
 
 for(let i=0;i<questions[current].options.length;i++){
 text +=
-`<button onclick="check(${i})">
+`<button class='button' onclick="check(${i})">
 ${questions[current].options[i]}
 </button>`;
 
@@ -460,7 +472,7 @@ showQuestion();
 document.querySelector(".quiz").innerHTML =
 "<h2>Quiz Finished!</h2>" +
 "<h3>Your Score: " + score + " / " + questions.length + "</h3>" +
-"<button onclick='location.reload()'>Play Again</button>";
+"<button class='button' onclick='location.reload()'>Play Again</button>";
 
 }
 
