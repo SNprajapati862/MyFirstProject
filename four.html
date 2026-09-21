@@ -1,0 +1,582 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect Four</title>
+    <style>
+        :root {
+            --panel: #000000;    
+            --panel-2:#0a0dd568;  
+            --text: #e5e7eb;    
+            --shadow: 0 10px 30px rgba(0,0,0,.45);
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background-image:url('photo/pexels-felix-mittermeier-1146134.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .game {
+            width: 95%;
+            max-width: 650px;
+            background: white;
+            padding: 25px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            color: #222;
+            font-size: 42px;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            color: #777;
+            margin-bottom: 18px;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        select {
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+        .scores {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        .score-box {
+            min-width: 110px;
+            padding: 10px 18px;
+            background: #f1f1f1;
+            border-radius: 12px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .score-box span {
+            display: block;
+            font-size: 25px;
+            margin-top: 4px;
+        }
+
+        #status {
+            min-height: 30px;
+            margin: 15px 0;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .board {
+            width: min(560px, 95vw);
+            margin: auto;
+            background: linear-gradient(180deg, var(--panel), var(--panel-2));
+            padding: 10px;
+            border-radius: 15px;
+
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+
+            touch-action: manipulation;
+        }
+
+        .cell {
+            width: 100%;
+            aspect-ratio: 1;
+            border: none;
+            border-radius: 50%;
+            background:#000000;
+            cursor: pointer;
+            box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.15);
+            transition: transform 0.12s;
+        }
+
+        .cell:hover {
+            transform: scale(0.94);
+        }
+
+        .cell.player1 {
+            background: #6f47ff;
+        }
+
+        .cell.player2 {
+            background: #ff2aad;
+        }
+
+        .cell.win {
+            animation: winAnimation 0.6s infinite alternate;
+        }
+
+        @keyframes winAnimation {
+            from {
+                transform: scale(0.9);
+            }
+
+            to {
+                transform: scale(1.05);
+            }
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        .new-game {
+            border: none;
+            padding: 13px 25px;
+            border-radius: 10px;
+            background: #2ecc71;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .new-game:hover {
+            background: #27ae60;
+        }
+
+        .instructions {
+            margin-top: 15px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        @media (max-width: 500px) {
+            .game {
+                padding: 18px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .board {
+                gap: 5px;
+                padding: 7px;
+            }
+
+            .score-box {
+                min-width: 90px;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="game">
+        <h1>🔴 Connect Four 🟡</h1>
+        <p class="subtitle">
+            Connect four pieces in a row to win!
+        </p>
+        <div class="controls">
+            <label for="mode">
+                Game Mode:
+            </label>
+            <select id="mode" onchange="newGame()">
+                <option value="two">👥 Two Players</option>
+            </select>
+
+        </div>
+
+
+        <div class="scores">
+
+            <div class="score-box">
+                🔴 Player 1
+                <span id="score1">0</span>
+            </div>
+
+            <div class="score-box">
+                🟡 Player 2
+                <span id="score2">0</span>
+            </div>
+
+        </div>
+
+
+        <div id="status">
+            🔴 Player 1's turn
+        </div>
+
+
+        <div class="board" id="board"></div>
+
+
+        <div class="buttons">
+
+            <button class="new-game" onclick="newGame()">
+                🔄 New Game
+            </button>
+
+        </div>
+
+
+        <p class="instructions">
+            Click any column to drop your piece.
+        </p>
+
+    </div>
+
+
+    <script>
+
+        const ROWS = 6;
+        const COLS = 7;
+
+        let board = [];
+
+        let currentPlayer = 1;
+
+        let gameOver = false;
+
+        let score1 = 0;
+        let score2 = 0;
+
+
+        const boardElement =
+            document.getElementById("board");
+
+        const statusElement =
+            document.getElementById("status");
+
+        // Create empty board
+        function createBoard() {
+            board = [];
+            for (let row = 0; row < ROWS; row++) {
+                board[row] = [];
+                for (let col = 0; col < COLS; col++) {
+                    board[row][col] = 0;
+                }
+            }
+        }
+        // Draw board
+        function drawBoard() {
+            boardElement.innerHTML = "";
+            for (let row = 0; row < ROWS; row++) {
+                for (let col = 0; col < COLS; col++) {
+                    const cell =
+                        document.createElement("button");
+                    cell.className = "cell";
+                    if (board[row][col] === 1) {
+                        cell.classList.add("player1");
+                    }
+                    if (board[row][col] === 2) {
+                        cell.classList.add("player2");
+                    }
+                    cell.onclick = function() {
+                        playColumn(col);
+                    };
+                    boardElement.appendChild(cell);
+                }
+            }
+        }
+        // Play a column
+        function playColumn(col) {
+            if (gameOver) {
+                return;
+            }
+            // Don't allow human to play during AI turn
+            if (
+                modeElement.value === "ai" &&
+                currentPlayer === 2
+            ) {
+                return;
+            }
+            dropPiece(col, currentPlayer);
+        }
+        // Drop piece into column
+        function dropPiece(col, player) {
+            let placed = false;
+            for (let row = ROWS - 1; row >= 0; row--) {
+                if (board[row][col] === 0) {
+                    board[row][col] = player;
+                    placed = true;
+                    break;
+                }
+            }
+            // Column is full
+            if (!placed) {
+                statusElement.textContent =
+                    "⚠️ That column is full!";
+                return;
+            }
+            drawBoard();
+            const winningCells =
+                checkWinner(player);
+            if (winningCells) {
+                gameOver = true;
+                highlightWinner(winningCells);
+                if (player === 1) {
+                    score1++;
+                    document.getElementById("score1")
+                        .textContent = score1;
+                }
+                else {
+                    score2++;
+                    document.getElementById("score2")
+                        .textContent = score2;
+                }
+                statusElement.textContent =
+                    player === 1
+                        ? "🎉 🔴 Player 1 Wins!"
+                        : "🎉 🟡 Player 2 Wins!";
+
+                return;
+            }
+            // Check draw
+            if (isBoardFull()) {
+                gameOver = true;
+                statusElement.textContent =
+                    "🤝 It's a draw!";
+                return;
+            }
+            // Switch player
+            currentPlayer =
+                currentPlayer === 1 ? 2 : 1;
+            if (
+                modeElement.value === "ai" &&
+                currentPlayer === 2
+            ) {
+                statusElement.textContent =
+                    "🤖 AI is thinking...";
+                setTimeout(aiMove, 500);
+            }
+            else {
+                statusElement.textContent =
+                    currentPlayer === 1
+                        ? "🔴 Player 1's turn"
+                        : "🟡 Player 2's turn";
+            }
+        }
+        // AI move
+        function aiMove() {
+            if (gameOver) {
+                return;
+            }
+            let validColumns = [];
+            for (let col = 0; col < COLS; col++) {
+                if (board[0][col] === 0) {
+                    validColumns.push(col);
+                }
+            }
+            if (validColumns.length === 0) {
+                return;
+            }
+            /*
+             * First try to win.
+             */
+            for (let col of validColumns) {
+                const row = getOpenRow(col);
+                board[row][col] = 2;
+                if (checkWinner(2)) {
+                    board[row][col] = 0;
+                    dropPiece(col, 2);
+                    return;
+                }
+                board[row][col] = 0;
+            }
+            /*
+             * Then block Player 1.
+             */
+            for (let col of validColumns) {
+                const row = getOpenRow(col);
+                board[row][col] = 1;
+                if (checkWinner(1)) {
+                    board[row][col] = 0;
+                    dropPiece(col, 2);
+                    return;
+                }
+                board[row][col] = 0;
+            }
+            /*
+             * Prefer the center column.
+             */
+            if (validColumns.includes(3)) {
+                dropPiece(3, 2);
+                return;
+            }
+            // Otherwise choose a random column
+            const randomColumn =
+                validColumns[
+                    Math.floor(
+                        Math.random() *
+                        validColumns.length
+                    )
+                ];
+            dropPiece(randomColumn, 2);
+        }
+        // Get empty row in a column
+        function getOpenRow(col) {
+            for (let row = ROWS - 1; row >= 0; row--) {
+                if (board[row][col] === 0) {
+                    return row;
+                }
+            }
+            return -1;
+        }
+
+
+        // Check winner
+        function checkWinner(player) {
+            const directions = [
+                [0, 1],   // Horizontal
+                [1, 0],   // Vertical
+                [1, 1],   // Diagonal
+                [1, -1]   // Other diagonal
+            ];
+
+
+            for (let row = 0; row < ROWS; row++) {
+
+                for (let col = 0; col < COLS; col++) {
+
+                    if (board[row][col] !== player) {
+                        continue;
+                    }
+
+
+                    for (let direction of directions) {
+
+                        const dr = direction[0];
+                        const dc = direction[1];
+
+                        const cells = [
+                            [row, col]
+                        ];
+
+
+                        for (let i = 1; i < 4; i++) {
+
+                            const newRow =
+                                row + dr * i;
+
+                            const newCol =
+                                col + dc * i;
+
+
+                            if (
+                                newRow < 0 ||
+                                newRow >= ROWS ||
+                                newCol < 0 ||
+                                newCol >= COLS
+                            ) {
+                                break;
+                            }
+
+
+                            if (
+                                board[newRow][newCol] === player
+                            ) {
+                                cells.push([
+                                    newRow,
+                                    newCol
+                                ]);
+                            }
+                            else {
+                                break;
+                            }
+
+                        }
+
+
+                        if (cells.length === 4) {
+                            return cells;
+                        }
+
+                    }
+
+                }
+
+            }
+
+            return null;
+        }
+
+
+        // Highlight winning pieces
+        function highlightWinner(winningCells) {
+
+            const cells =
+                document.querySelectorAll(".cell");
+
+
+            winningCells.forEach(function(position) {
+
+                const row = position[0];
+                const col = position[1];
+
+                const index =
+                    row * COLS + col;
+
+                cells[index].classList.add("win");
+
+            });
+
+        }
+
+
+        // Check if board is full
+        function isBoardFull() {
+
+            for (let col = 0; col < COLS; col++) {
+
+                if (board[0][col] === 0) {
+                    return false;
+                }
+
+            }
+
+            return true;
+        }
+
+
+        // Start new game
+        function newGame() {
+
+            createBoard();
+
+            currentPlayer = 1;
+
+            gameOver = false;
+
+            statusElement.textContent =
+                "🔴 Player 1's turn";
+
+            drawBoard();
+
+        }
+
+
+        // Start game
+        newGame();
+
+    </script>
+
+</body>
+</html>
