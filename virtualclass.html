@@ -1,0 +1,778 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>VirtualClass</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="button1.css">
+    <style>
+        :root {
+            --bg: #f6f7fd;
+            --cd: #fff;
+            --tx: #1d1b3a;
+            --mu: #625f82;
+            --ac: #5b5ff0;
+            --a2: #8b5cf6;
+            --bd: #e4e6f5;
+            --ok: #0f9d6e;
+            --wa: #b7791f;
+            --sh: 0 6px 24px rgba(91, 95, 240, .10);
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px)
+        }
+
+        @media(prefers-color-scheme:dark) {
+            :root:not([data-theme=light]) {
+                --bg: #12121f;
+                --cd: #1c1c2e;
+                --tx: #f1f0ff;
+                --mu: #a9a7c9;
+                --bd: #2d2d46;
+                --sh: 0 6px 24px rgba(0, 0, 0, .35)
+            }
+        }
+
+        :root[data-theme=dark] {
+            --bg: #12121f;
+            --cd: #1c1c2e;
+            --tx: #f1f0ff;
+            --mu: #a9a7c9;
+            --bd: #2d2d46;
+            --sh: 0 6px 24px rgba(0, 0, 0, .35)
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            background: var(--bg);
+            color: var(--tx)
+        }
+
+        h1,
+        h2,
+        h3,
+        p {
+            margin: 0
+        }
+
+        button,
+        input,
+        textarea,
+        select {
+            font-family: inherit;
+            font-size: 15px;
+            color: var(--tx)
+        }
+
+        .btn {
+            border: 1px solid var(--bd);
+            background: var(--cd);
+            border-radius: 12px;
+            padding: 10px 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--sh)
+        }
+
+        .btn:focus-visible,
+        input:focus-visible,
+        textarea:focus-visible {
+            outline: 3px solid var(--a2);
+            outline-offset: 2px
+        }
+
+        .p {
+            background: linear-gradient(135deg, var(--ac), var(--a2));
+            color: #fff;
+            border: 0
+        }
+
+        .sm {
+            padding: 6px 12px;
+            font-size: 14px
+        }
+
+        .dg {
+            background: #e5484d;
+            color: #fff;
+            border: 0
+        }
+
+        .card {
+            background: var(--cd);
+            border: 1px solid var(--bd);
+            border-radius: 18px;
+            padding: 18px;
+            box-shadow: var(--sh);
+            transition: .2s
+        }
+
+        .hv:hover {
+            transform: translateY(-4px)
+        }
+
+        .grid {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr))
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .sp {
+            justify-content: space-between
+        }
+
+        .wr {
+            flex-wrap: wrap
+        }
+
+        .mu {
+            color: var(--mu)
+        }
+
+        .sb {
+            font-size: 14px
+        }
+
+        .stack>*+* {
+            margin-top: 12px
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 11px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--bd);
+            background: var(--cd)
+        }
+
+        .bar {
+            height: 8px;
+            border-radius: 9px;
+            background: var(--bd);
+            overflow: hidden
+        }
+
+        .bar i {
+            display: block;
+            height: 100%;
+            border-radius: 9px;
+            background: linear-gradient(90deg, var(--ac), var(--a2));
+            transition: width 1s ease
+        }
+
+        .chip {
+            padding: 7px 14px;
+            border-radius: 99px;
+            border: 1px solid var(--bd);
+            background: var(--cd);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px
+        }
+
+        .chip.on {
+            background: var(--ac);
+            color: #fff;
+            border-color: var(--ac)
+        }
+
+        .badge {
+            padding: 3px 10px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 700;
+            background: #ecebff;
+            color: #4338ca
+        }
+
+        .badge.ok {
+            background: #d9f7ea;
+            color: #0b6b4b
+        }
+
+        .badge.wa {
+            background: #fdf0d5;
+            color: #8a5a0b
+        }
+
+        .av {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--ac), var(--a2));
+            flex: none
+        }
+
+        .top {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: var(--bg);
+            border-bottom: 1px solid var(--bd);
+            padding: 12px 5vw
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 21px;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--ac), var(--a2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        .links {
+            display: flex;
+            gap: 22px
+        }
+
+        .links a {
+            cursor: pointer;
+            color: var(--mu);
+            font-weight: 600
+        }
+
+        .links a:hover {
+            color: var(--ac)
+        }
+
+        .burger {
+            display: none
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            padding: 60px 5vw
+        }
+
+        .hero h1 {
+            font-size: clamp(34px, 5vw, 56px);
+            line-height: 1.1;
+            font-weight: 800
+        }
+
+        .sec {
+            padding: 40px 5vw
+        }
+
+        .sec h2 {
+            font-size: 28px;
+            margin-bottom: 20px
+        }
+
+        .stat {
+            text-align: center
+        }
+
+        .stat b {
+            font-size: 32px;
+            color: var(--ac)
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh
+        }
+
+        .side {
+            width: 230px;
+            padding: 20px 14px;
+            border-right: 1px solid var(--bd);
+            background: var(--cd);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            flex: none;
+            transition: .25s
+        }
+
+        .nv {
+            display: flex;
+            gap: 10px;
+            padding: 11px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            color: var(--mu);
+            font-weight: 600;
+            margin-top: 4px
+        }
+
+        .nv:hover {
+            background: var(--bg)
+        }
+
+        .nv.on {
+            background: linear-gradient(135deg, var(--ac), var(--a2));
+            color: #fff
+        }
+
+        .main {
+            flex: 1;
+            min-width: 0
+        }
+
+        .pg {
+            padding: 24px 5vw;
+            animation: fi .35s ease
+        }
+
+        @keyframes fi {
+            from {
+                opacity: 0;
+                transform: translateY(10px)
+            }
+        }
+
+        .th {
+            height: 110px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            font-size: 44px;
+            margin-bottom: 12px
+        }
+
+        .tabs {
+            display: flex;
+            gap: 6px;
+            border-bottom: 1px solid var(--bd);
+            margin-bottom: 16px
+        }
+
+        .tab {
+            padding: 9px 16px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--mu);
+            border: 0;
+            background: none;
+            border-bottom: 3px solid transparent
+        }
+
+        .tab.on {
+            color: var(--ac);
+            border-color: var(--ac)
+        }
+
+        .ov {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 30, .55);
+            display: grid;
+            place-items: center;
+            z-index: 50;
+            padding: 16px;
+            animation: fi .2s
+        }
+
+        .md {
+            max-width: 440px;
+            width: 100%
+        }
+
+        .ts {
+            position: fixed;
+            right: 16px;
+            bottom: 16px;
+            z-index: 60;
+            display: grid;
+            gap: 8px
+        }
+
+        .t {
+            background: #1d1b3a;
+            color: #fff;
+            padding: 12px 18px;
+            border-radius: 12px;
+            box-shadow: var(--sh);
+            animation: fi .25s
+        }
+
+        .t.er {
+            background: #e5484d
+        }
+
+        .dd {
+            position: absolute;
+            right: 0;
+            top: 46px;
+            width: 260px;
+            z-index: 30
+        }
+
+        .live {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 16px
+        }
+
+        .stage {
+            background: #14142a;
+            border-radius: 18px;
+            min-height: 340px;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            position: relative;
+            padding: 16px;
+            text-align: center
+        }
+
+        .vt {
+            height: 84px;
+            border-radius: 12px;
+            background: #2a2a48;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            font-size: 13px;
+            position: relative
+        }
+
+        .vt small {
+            position: absolute;
+            bottom: 4px;
+            left: 8px
+        }
+
+        .ctl {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 14px
+        }
+
+        .ctl .btn.off {
+            background: #e5484d;
+            color: #fff;
+            border: 0
+        }
+
+        .ctl .btn.on {
+            background: var(--ac);
+            color: #fff;
+            border: 0
+        }
+
+        .rec {
+            position: absolute;
+            top: 12px;
+            left: 14px;
+            font-size: 13px;
+            display: flex;
+            gap: 6px;
+            align-items: center
+        }
+
+        .rec i {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff4d4f;
+            animation: pl 1.2s infinite
+        }
+
+        @keyframes pl {
+            50% {
+                opacity: .25
+            }
+        }
+
+        .msgs {
+            height: 260px;
+            overflow: auto
+        }
+
+        .bub {
+            background: var(--bg);
+            padding: 8px 12px;
+            border-radius: 12px;
+            max-width: 90%;
+            margin-bottom: 8px;
+            font-size: 14px
+        }
+
+        .bub.me {
+            background: var(--ac);
+            color: #fff;
+            margin-left: auto
+        }
+
+        .sk {
+            background: linear-gradient(90deg, var(--bd), var(--bg), var(--bd));
+            background-size: 200%;
+            animation: sh 1.2s infinite;
+            height: 200px;
+            border-radius: 18px
+        }
+
+        @keyframes sh {
+            to {
+                background-position: -200%
+            }
+        }
+
+        .two {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 16px
+        }
+
+        .lr {
+            padding: 12px 4px;
+            border-bottom: 1px solid var(--bd)
+        }
+
+        @media(max-width:860px) {
+
+            .hero,
+            .live,
+            .two {
+                grid-template-columns: 1fr
+            }
+
+            .links {
+                display: none
+            }
+
+            .links.open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: var(--cd);
+                padding: 16px 5vw;
+                box-shadow: var(--sh)
+            }
+
+            .burger {
+                display: inline-block
+            }
+
+            .side {
+                position: fixed;
+                left: -250px;
+                z-index: 40
+            }
+
+            .side.open {
+                left: 0
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            * {
+                animation: none !important;
+                transition: none !important
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <br>
+    <h1 style="text-align:center;color:white;font-family:Comic Sans MS;">🌐 Welcome to my Virtual Class ⭐</h1>
+    <div id="root"></div>
+    <button href="main.html" id="back-link" style="position: absolute; top: 20px; left: 30px;">
+        <span >❮</span>
+    </button>
+    <br><br><br><br>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+    <script>
+                $("body").hide().fadeIn(1000);
+                $("#back-link").click(function(e) {
+            e.preventDefault();
+            $("body").fadeOut(1000, function() {
+                window.location = "main.html";
+            });
+        });
+    </script>
+
+    <script>
+        const { useState, useEffect, useRef } = React; const html = htm.bind(React.createElement);
+        let toastFn = () => { }; const toast = (m, k) => toastFn(m, k);
+        const COURSES = [
+            { id: 1, t: 'Algebra Essentials', te: 'Dr. Maya Patel', c: 'Mathematics', l: 'Beginner', n: 24, r: 4.8, s: 2310, p: 72, nx: 'Solving quadratic equations', e: '📐', h: 230 },
+            { id: 2, t: 'Physics: Motion & Forces', te: 'Prof. Daniel Kim', c: 'Science', l: 'Intermediate', n: 18, r: 4.7, s: 1820, p: 45, nx: "Newton's second law", e: '🔭', h: 265 },
+            { id: 3, t: 'Python for Beginners', te: 'Sara Johnson', c: 'Programming', l: 'Beginner', n: 30, r: 4.9, s: 5120, p: 88, nx: 'Functions & scope', e: '🐍', h: 170 },
+            { id: 4, t: 'Spanish Conversation', te: 'Lucía Fernández', c: 'Languages', l: 'Beginner', n: 20, r: 4.6, s: 980, p: 0, nx: 'Greetings', e: '🗣️', h: 320 },
+            { id: 5, t: 'Startup Fundamentals', te: 'Marcus Reed', c: 'Business', l: 'Intermediate', n: 16, r: 4.5, s: 760, p: 0, nx: 'Finding your market', e: '💡', h: 30 },
+            { id: 6, t: 'Web Dev with React', te: 'Sara Johnson', c: 'Programming', l: 'Advanced', n: 36, r: 4.9, s: 3400, p: 20, nx: 'Hooks in depth', e: '⚛️', h: 200 }];
+        const CATS = ['All', 'Mathematics', 'Science', 'Programming', 'Languages', 'Business'];
+        const NOTES = ['Dr. Patel posted a new quiz', 'Your Python assignment was graded: 92%', 'Physics live class starts in 30 min'];
+        const SCHED = [['09:00', 'Algebra Essentials — Live'], ['11:30', 'Python Lab'], ['14:00', 'Physics Q&A']];
+        const ASG0 = [
+            { id: 1, t: 'Quadratic Equations Worksheet', co: 'Algebra Essentials', due: 'Tomorrow', st: 'up' },
+            { id: 2, t: 'Newton’s Laws Lab Report', co: 'Physics', due: 'Fri, 10 Oct', st: 'up' },
+            { id: 3, t: 'Build a Calculator in Python', co: 'Python', due: 'Submitted Mon', st: 'sub' },
+            { id: 4, t: 'Functions Quiz', co: 'Python', due: 'Graded', st: 'gr', sc: 92, fb: 'Great work! Watch edge cases with default arguments.' },
+            { id: 5, t: 'Linear Equations Test', co: 'Algebra', due: 'Graded', st: 'gr', sc: 85, fb: 'Solid reasoning. Show more steps next time.' }];
+        const NAV = [['dashboard', '🏠', 'Dashboard'], ['courses', '📚', 'My Courses'], ['live', '🎥', 'Live Classes'], ['assignments', '📝', 'Assignments'], ['messages', '💬', 'Messages'], ['calendar', '📅', 'Calendar'], ['progress', '📈', 'Progress'], ['settings', '⚙️', 'Settings']];
+
+        const Bar = ({ v }) => { const [w, s] = useState(0); useEffect(() => { const t = setTimeout(() => s(v), 80); return () => clearTimeout(t) }, [v]); return html`<div className="bar" role="progressbar" aria-valuenow=${v}><i style=${{ width: w + '%' }}/></div>` };
+        const Av = ({ n, s }) => html`<div className="av" style=${{ width: s, height: s }}>${n[0]}</div>`;
+        const Modal = ({ title, onClose, children }) => html`<div className="ov" onClick=${onClose}><div className="card md stack" role="dialog" aria-modal="true" onClick=${e => e.stopPropagation()}><div className="row sp"><h3>${title}</h3><button className="btn sm" aria-label="Close" onClick=${onClose}>✕</button></div>${children}</div></div>`;
+        const Empty = ({ e, t, d }) => html`<div className="card" style=${{ textAlign: 'center', padding: 40 }}><div style=${{ fontSize: 46 }}>${e}</div><h3>${t}</h3><p className="mu">${d}</p></div>`;
+        const Thumb = ({ c }) => html`<div className="th" style=${{ background: `linear-gradient(135deg,hsl(${c.h} 85% 78%),hsl(${c.h + 40} 80% 66%))` }}>${c.e}</div>`;
+        const Course = ({ c, go }) => html`<div className="card hv stack"><${Thumb} c=${c}/><div className="row sp"><span className="badge">${c.l}</span><span className="sb">⭐ ${c.r}</span></div><h3>${c.t}</h3><p className="mu sb">${c.te} · ${c.n} lessons · ${c.s.toLocaleString()} students</p>
+${c.p > 0 && html`<div><div className="row sp sb"><span>Progress</span><b>${c.p}%</b></div><${Bar} v=${c.p}/></div>`}
+<button className="btn p" onClick=${() => go('detail', c.id)}>${c.p > 0 ? 'Continue' : 'View Course'}</button></div>`;
+
+        function Landing({ go, dark, setDark }) {
+            const [o, setO] = useState(false);
+            const F = [['🎥', 'Live Classes', 'Join real-time lessons with HD video.'], ['🧩', 'Interactive Learning', 'Polls, quizzes and hand-raising.'], ['📝', 'Assignments', 'Submit work and get feedback fast.'], ['📈', 'Progress Tracking', 'See growth with clear charts.'], ['💬', 'Discussion & Chat', 'Ask, share and learn together.']];
+            const Q = [['Priya S.', 'Student', 'I finally understand algebra — the live sessions feel like a real classroom.'], ['Mr. Collins', 'Teacher', 'Grading and attendance take half the time. My students love it.'], ['Jordan L.', 'Student', 'Super simple. I always know what is due and what is next.']];
+            return html`<div><div className="top row sp" style=${{ position: 'sticky' }}><div className="logo" onClick=${() => go('landing')}>🎓 VirtualClass</div>
+<nav className=${'links' + (o ? ' open' : '')}>${['Home', 'Classes', 'Courses', 'About', 'Contact'].map(x => html`<a key=${x} onClick=${() => { setO(false); x === 'Classes' ? go('live') : x === 'Courses' ? go('courses') : toast(x + ' section') }}>${x}</a>`)}</nav>
+<div className="row"><button className="btn sm" aria-label="Toggle theme" onClick=${() => setDark(!dark)}>${dark ? '☀️' : '🌙'}</button><button className="btn sm" onClick=${() => go('dashboard')}>Login</button><button className="btn p sm" onClick=${() => go('dashboard')}>Get Started</button><button className="btn sm burger" aria-label="Menu" onClick=${() => setO(!o)}>☰</button></div></div>
+<section className="hero"><div className="stack"><span className="badge">✨ The friendly way to learn online</span><h1>Learn. Connect. Grow. <span className="logo" style=${{ fontSize: 'inherit' }}>Together.</span></h1><p className="mu" style=${{ fontSize: 18 }}>A simple virtual classroom where students and teachers meet live, share work and track progress — all in one place.</p>
+<div className="row wr"><button className="btn p" onClick=${() => go('live')}>Join a Class</button><button className="btn" onClick=${() => go('courses')}>Explore Courses</button></div></div>
+<svg viewBox="0 0 400 300" role="img" aria-label="Online classroom illustration"><rect x="20" y="30" width="360" height="220" rx="22" fill="var(--cd)" stroke="var(--bd)" strokeWidth="2"/><rect x="40" y="50" width="200" height="130" rx="14" fill="#8b5cf6"/><circle cx="140" cy="100" r="26" fill="#fff"/><rect x="104" y="134" width="72" height="32" rx="16" fill="#fff"/>
+${[0, 1, 2].map(i => html`<rect key=${i} x="258" y=${50 + i * 46} width="100" height="38" rx="10" fill=${['#5b5ff0', '#f59e0b', '#10b981'][i]} opacity=".85"/>`)}<rect x="40" y="196" width="320" height="10" rx="5" fill="var(--bd)"/><rect x="40" y="196" width="210" height="10" rx="5" fill="#5b5ff0"/><rect x="120" y="262" width="160" height="12" rx="6" fill="var(--bd)"/></svg></section>
+<section className="sec"><div className="grid" style=${{ gridTemplateColumns: 'repeat(auto-fit,minmax(140px,1fr))' }}>${[['10K+', 'Students'], ['500+', 'Classes'], ['100+', 'Teachers'], ['95%', 'Satisfaction']].map(([a, b]) => html`<div key=${b} className="card stat"><b>${a}</b><p className="mu">${b}</p></div>`)}</div></section>
+<section className="sec"><h2>Everything you need to learn</h2><div className="grid">${F.map(([e, t, d]) => html`<div key=${t} className="card hv"><div style=${{ fontSize: 32 }}>${e}</div><h3>${t}</h3><p className="mu sb">${d}</p></div>`)}</div></section>
+<section className="sec"><h2>Loved by learners</h2><div className="grid">${Q.map(([n, r, t]) => html`<div key=${n} className="card stack"><p>“${t}”</p><div className="row"><${Av} n=${n} s=${38}/><div><b>${n}</b><p className="mu sb">${r}</p></div></div></div>`)}</div></section>
+<footer className="sec row sp wr mu sb" style=${{ borderTop: '1px solid var(--bd)' }}><span>© 2026 VirtualClass</span><span>About · Privacy · Contact</span></footer></div>`
+        }
+
+        function Dashboard({ go }) {
+            return html`<div className="stack"><div className="row sp wr"><div><h1>Good morning, Alex 👋</h1><p className="mu">You have 3 classes today. Keep it up!</p></div></div>
+<div className="grid" style=${{ gridTemplateColumns: 'repeat(auto-fit,minmax(170px,1fr))' }}>${[['🎥', 'Join Live Class', 'live'], ['📝', 'View Assignments', 'assignments'], ['📚', 'Browse Courses', 'courses'], ['💬', 'Message Teacher', 'msg']].map(([e, t, p]) => html`<button key=${t} className="btn p" onClick=${() => p === 'msg' ? toast('Message sent to Dr. Patel ✉️') : go(p)}>${e} ${t}</button>`)}</div>
+<h2>Continue learning</h2><div className="grid">${COURSES.filter(c => c.p > 0).slice(0, 3).map(c => html`<div key=${c.id} className="card hv stack"><div className="row sp"><h3>${c.e} ${c.t}</h3></div><p className="mu sb">${c.te} · Next: ${c.nx}</p><div className="row sp sb"><span>Progress</span><b>${c.p}%</b></div><${Bar} v=${c.p}/><button className="btn p sm" onClick=${() => go('detail', c.id)}>Continue</button></div>`)}</div>
+<div className="two"><div className="card"><h3>Today's schedule</h3>${SCHED.map(([t, n]) => html`<div key=${t} className="lr row"><b style=${{ width: 56 }}>${t}</b><span>${n}</span></div>`)}</div>
+<div className="card"><h3>Notifications</h3>${NOTES.map(n => html`<div key=${n} className="lr sb">🔔 ${n}</div>`)}</div></div></div>`
+        }
+
+        function Courses({ go }) {
+            const [q, setQ] = useState(''); const [cat, setCat] = useState('All'); const [ld, setLd] = useState(true);
+            useEffect(() => { const t = setTimeout(() => setLd(false), 600); return () => clearTimeout(t) }, []);
+            const L = COURSES.filter(c => (cat === 'All' || c.c === cat) && (c.t + c.te).toLowerCase().includes(q.toLowerCase()));
+            return html`<div className="stack"><h1>Courses</h1><input type="search" placeholder="Search courses or teachers…" aria-label="Search" value=${q} onChange=${e => setQ(e.target.value)}/>
+<div className="row wr">${CATS.map(c => html`<button key=${c} className=${'chip' + (cat === c ? ' on' : '')} onClick=${() => setCat(c)}>${c}</button>`)}</div>
+${ld ? html`<div className="grid">${[1, 2, 3].map(i => html`<div key=${i} className="sk"/>`)}</div>` : L.length ? html`<div className="grid">${L.map(c => html`<${Course} key=${c.id} c=${c} go=${go}/>`)}</div>` : html`<${Empty} e="🔍" t="No courses found" d="Try a different search or category."/>`}</div>`
+        }
+
+        function Detail({ id, go }) {
+            const c = COURSES.find(x => x.id === id) || COURSES[0]; const [open, setOpen] = useState(0); const [tab, setTab] = useState('Resources'); const [play, setPlay] = useState(false);
+            const MODS = ['Getting started', 'Core concepts', 'Practice & projects'];
+            return html`<div className="stack"><button className="btn sm" onClick=${() => go('courses')}>← Back</button>
+<div className="card stack"><div className="row wr"><span className="badge">${c.c}</span><span className="sb">⭐ ${c.r} · ${c.s.toLocaleString()} students</span></div><h1>${c.e} ${c.t}</h1>
+<p className="mu">Learn step by step with short lessons, live Q&A and hands-on practice. No prior experience needed.</p>
+<div className="row"><${Av} n=${c.te} s=${40}/><div><b>${c.te}</b><p className="mu sb">Instructor</p></div></div>
+<div className="row sp sb"><span>Your progress</span><b>${c.p}%</b></div><${Bar} v=${c.p}/>
+<div><button className="btn p" onClick=${() => toast(c.p ? 'Resuming: ' + c.nx : 'Enrolled! Let’s begin 🎉')}>${c.p ? 'Continue Learning' : 'Start Learning'}</button></div></div>
+<div className="two"><div className="stack"><div className="stage" style=${{ minHeight: 200, cursor: 'pointer' }} onClick=${() => setPlay(!play)}>${play ? '▶ Playing preview… (click to pause)' : '▶ Watch lesson preview'}</div>
+<h3>Lessons</h3>${MODS.map((m, i) => html`<div key=${m} className="card" style=${{ padding: 12 }}><button className="row sp" style=${{ width: '100%', background: 'none', border: 0, cursor: 'pointer', fontWeight: 700 }} aria-expanded=${open === i} onClick=${() => setOpen(open === i ? -1 : i)}><span>Module ${i + 1}: ${m}</span><span>${open === i ? '▲' : '▼'}</span></button>
+${open === i && html`<div>${['Introduction', 'Key ideas', 'Try it yourself'].map(l => html`<div key=${l} className="lr sb">🎬 ${l} · 8 min</div>`)}</div>`}</div>`)}</div>
+<div className="card"><div className="tabs">${['Resources', 'Discussion'].map(t => html`<button key=${t} className=${'tab' + (tab === t ? ' on' : '')} onClick=${() => setTab(t)}>${t}</button>`)}</div>
+${tab === 'Resources' ? ['Lecture notes.pdf', 'Practice set.pdf', 'Cheat sheet.pdf'].map(f => html`<div key=${f} className="lr row sp sb">📄 ${f}<button className="btn sm" onClick=${() => toast('Downloading ' + f)}>Download</button></div>`) : html`<div className="stack sb"><p><b>Priya:</b> Can someone explain lesson 2 again?</p><p><b>${c.te.split(' ')[0]}:</b> Sure — see the cheat sheet, then join Friday’s Q&A!</p><input placeholder="Add a comment…" onKeyDown=${e => { if (e.key === 'Enter' && e.target.value) { toast('Comment posted'); e.target.value = '' } }}/></div>`}</div></div></div>`
+        }
+
+        function Live({ go }) {
+            const [mic, setMic] = useState(true); const [cam, setCam] = useState(true); const [sh, setSh] = useState(false); const [hand, setHand] = useState(false); const [t, setT] = useState(0); const [tab, setTab] = useState('Chat'); const [ld, setLd] = useState(true);
+            const [msgs, setMsgs] = useState([['Dr. Patel', 'Welcome everyone! Today: quadratics.']]); const [txt, setTxt] = useState(''); const ref = useRef();
+            useEffect(() => { const a = setTimeout(() => setLd(false), 1100), i = setInterval(() => setT(x => x + 1), 1000); return () => { clearTimeout(a); clearInterval(i) } }, []);
+            useEffect(() => { if (ref.current) ref.current.scrollTop = 1e5 }, [msgs, tab]);
+            const send = () => { if (!txt.trim()) return; setMsgs(m => [...m, ['You', txt]]); setTxt(''); setTimeout(() => setMsgs(m => [...m, ['Priya', 'Thanks, that helps! 👍']]), 1000) };
+            const P = ['Dr. Maya Patel (Host)', 'Alex (You)', 'Priya S.', 'Jordan L.', 'Sam K.', 'Mei W.'];
+            if (ld) return html`<div className="stage" style=${{ minHeight: '70vh' }}><div><div style=${{ fontSize: 56 }}>🎓</div><h2>Joining classroom…</h2><p>Checking your camera and mic</p></div></div>`;
+            const mm = String(Math.floor(t / 60)).padStart(2, '0') + ':' + String(t % 60).padStart(2, '0');
+            return html`<div className="stack"><div className="row sp wr"><h2>Algebra Essentials — Live</h2><span className="badge">⏱ ${mm}</span></div>
+<div className="live"><div><div className="stage"><div className="rec"><i/>Recording</div>${sh ? html`<div><h2>x = (−b ± √(b²−4ac)) / 2a</h2><p>Screen shared by Dr. Patel</p></div>` : html`<div><div className="av" style=${{ width: 90, height: 90, fontSize: 36, margin: '0 auto 8px' }}>M</div><b>Dr. Maya Patel</b></div>`}</div>
+<div className="grid" style=${{ gridTemplateColumns: 'repeat(auto-fit,minmax(110px,1fr))', marginTop: 12, gap: 8 }}>${P.slice(1).map((p, i) => html`<div key=${p} className="vt">${i === 0 && !cam ? '📷 Off' : '🙂'}<small>${p.split(' ')[0]}${i === 0 && hand ? ' ✋' : ''}${i === 0 && !mic ? ' 🔇' : ''}</small></div>`)}</div>
+<div className="ctl"><button className=${'btn' + (mic ? '' : ' off')} onClick=${() => setMic(!mic)}>${mic ? '🎙 Mic' : '🔇 Muted'}</button><button className=${'btn' + (cam ? '' : ' off')} onClick=${() => setCam(!cam)}>${cam ? '📹 Camera' : '📷 Off'}</button><button className=${'btn' + (sh ? ' on' : '')} onClick=${() => setSh(!sh)}>🖥 Share</button><button className=${'btn' + (hand ? ' on' : '')} onClick=${() => { setHand(!hand); toast(hand ? 'Hand lowered' : 'Hand raised ✋') }}>✋ Raise Hand</button><button className="btn dg" onClick=${() => { toast('You left the class'); go('dashboard') }}>Leave</button></div></div>
+<div className="card"><div className="tabs">${['Chat', 'People'].map(x => html`<button key=${x} className=${'tab' + (tab === x ? ' on' : '')} onClick=${() => setTab(x)}>${x === 'People' ? 'People (' + P.length + ')' : x}</button>`)}</div>
+${tab === 'Chat' ? html`<div><div className="msgs" ref=${ref}>${msgs.map((m, i) => html`<div key=${i} className=${'bub' + (m[0] === 'You' ? ' me' : '')}><b>${m[0]}</b><br/>${m[1]}</div>`)}</div><div className="row"><input aria-label="Message" placeholder="Type a message…" value=${txt} onChange=${e => setTxt(e.target.value)} onKeyDown=${e => e.key === 'Enter' && send()}/><button className="btn p" onClick=${send}>Send</button></div></div>` : P.map(p => html`<div key=${p} className="lr row"><${Av} n=${p} s=${30}/>${p}</div>`)}</div></div></div>`
+        }
+
+        function Assignments() {
+            const [L, setL] = useState(ASG0); const [tab, setTab] = useState('up'); const [m, setM] = useState(null); const [tx, setTx] = useState('');
+            const T = { up: 'Upcoming', sub: 'Submitted', gr: 'Graded' }; const items = L.filter(a => a.st === tab);
+            const submit = () => { if (!tx.trim()) { toast('Please add your answer first', 'er'); return } setL(L.map(a => a.id === m.id ? { ...a, st: 'sub', due: 'Submitted just now' } : a)); setM(null); setTx(''); toast('Assignment submitted ✅') };
+            return html`<div className="stack"><h1>Assignments</h1><div className="tabs">${Object.keys(T).map(k => html`<button key=${k} className=${'tab' + (tab === k ? ' on' : '')} onClick=${() => setTab(k)}>${T[k]} (${L.filter(a => a.st === k).length})</button>`)}</div>
+${items.length ? items.map(a => html`<div key=${a.id} className="card hv row sp wr"><div><h3>${a.t}</h3><p className="mu sb">${a.co} · ${a.due}</p>${a.fb && html`<p className="sb" style=${{ marginTop: 6 }}>💬 ${a.fb}</p>`}</div>
+<div className="row">${a.st === 'up' && html`<span className="badge wa">Due soon</span>`}${a.st === 'sub' && html`<span className="badge">Awaiting grade</span>`}${a.st === 'gr' && html`<span className="badge ok">${a.sc}%</span>`}${a.st === 'up' && html`<button className="btn p sm" onClick=${() => setM(a)}>Submit Assignment</button>`}</div></div>`) : html`<${Empty} e="🎉" t="All clear" d="Nothing here right now."/>`}
+${m && html`<${Modal} title=${m.t} onClose=${() => setM(null)}><textarea rows="5" aria-label="Your answer" placeholder="Write your answer or paste a link…" value=${tx} onChange=${e => setTx(e.target.value)}/><button className="btn p" onClick=${submit}>Submit</button><//>`}</div>`
+        }
+
+        function Teacher({ go }) {
+            const [m, setM] = useState(null); const [nm, setNm] = useState('');
+            const S = [['Maya', 92], ['Jordan', 74], ['Priya', 88], ['Sam', 61], ['Mei', 95]];
+            return html`<div className="stack"><div className="row sp wr"><h1>Teacher Dashboard</h1><div className="row wr"><button className="btn" onClick=${() => setM('class')}>＋ Create Class</button><button className="btn" onClick=${() => setM('assignment')}>＋ Create Assignment</button><button className="btn p" onClick=${() => go('live')}>▶ Start Live Class</button></div></div>
+<div className="grid" style=${{ gridTemplateColumns: 'repeat(auto-fit,minmax(170px,1fr))' }}>${[['👩‍🎓', 'Total students', '248'], ['🎥', 'Active classes', '6'], ['📅', 'Upcoming today', '3'], ['📝', 'To grade', '14']].map(([e, l, v]) => html`<div key=${l} className="card"><div style=${{ fontSize: 26 }}>${e}</div><b style=${{ fontSize: 28 }}>${v}</b><p className="mu sb">${l}</p></div>`)}</div>
+<div className="card stack"><h3>Student performance</h3>${S.map(([n, v]) => html`<div key=${n}><div className="row sp sb"><span>${n}</span><b>${v}%</b></div><${Bar} v=${v}/></div>`)}</div>
+${m && html`<${Modal} title=${m === 'class' ? 'Create class' : 'Create assignment'} onClose=${() => setM(null)}><input aria-label="Title" placeholder="Title" value=${nm} onChange=${e => setNm(e.target.value)}/><button className="btn p" onClick=${() => { if (!nm.trim()) { toast('Please enter a title', 'er'); return } toast(nm + ' created 🎉'); setNm(''); setM(null) }}>Create</button><//>`}</div>`
+        }
+
+        function Shell({ page, pid, go, dark, setDark, children }) {
+            const [side, setSide] = useState(false); const [dd, setDd] = useState(null);
+            const cur = page === 'detail' ? 'courses' : page === 'teacher' ? '' : page;
+            return html`<div className="app"><aside className=${'side' + (side ? ' open' : '')}><div className="logo" style=${{ marginBottom: 14 }} onClick=${() => go('landing')}>🎓 VirtualClass</div>
+${NAV.map(([k, e, l]) => html`<div key=${k} role="button" tabIndex="0" className=${'nv' + (cur === k ? ' on' : '')} onClick=${() => { setSide(false);['messages', 'calendar', 'progress', 'settings'].includes(k) ? go(k) : go(k) }} onKeyDown=${ev => ev.key === 'Enter' && go(k)}>${e} ${l}</div>`)}
+<div className=${'nv' + (page === 'teacher' ? ' on' : '')} role="button" tabIndex="0" onClick=${() => { setSide(false); go('teacher') }}>🧑‍🏫 Teacher View</div></aside>
+<div className="main"><div className="top row sp"><button className="btn sm burger" aria-label="Menu" onClick=${() => setSide(!side)}>☰</button><span/><div className="row" style=${{ position: 'relative' }}>
+<button className="btn sm" aria-label="Toggle theme" onClick=${() => setDark(!dark)}>${dark ? '☀️' : '🌙'}</button><button className="btn sm" aria-label="Notifications" onClick=${() => setDd(dd === 'n' ? null : 'n')}>🔔 <b>3</b></button>
+<div onClick=${() => setDd(dd === 'u' ? null : 'u')} style=${{ cursor: 'pointer' }}><${Av} n="Alex" s=${38}/></div>
+${dd && html`<div className="card dd stack">${dd === 'n' ? NOTES.map(n => html`<p key=${n} className="sb">🔔 ${n}</p>`) : ['Profile', 'Settings', 'Log out'].map(x => html`<button key=${x} className="btn sm" style=${{ width: '100%' }} onClick=${() => { setDd(null); x === 'Log out' ? go('landing') : toast(x + ' opened') }}>${x}</button>`)}</div>`}</div></div>
+<div className="pg" key=${page + pid}>${children}</div></div></div>`
+        }
+
+        function App() {
+            const [page, setPage] = useState('landing'); const [pid, setPid] = useState(0); const [toasts, setT] = useState([]);
+            const [dark, setDark] = useState(() => matchMedia('(prefers-color-scheme:dark)').matches);
+            useEffect(() => { document.documentElement.dataset.theme = dark ? 'dark' : 'light' }, [dark]);
+            toastFn = (m, k) => { const id = Math.random(); setT(t => [...t, { id, m, k }]); setTimeout(() => setT(t => t.filter(x => x.id !== id)), 2800) };
+            const go = (p, id) => { setPage(p); setPid(id || 0); window.scrollTo(0, 0) };
+            let v;
+            if (page === 'landing') v = html`<${Landing} go=${go} dark=${dark} setDark=${setDark}/>`;
+            else {
+                const B = { dashboard: html`<${Dashboard} go=${go}/>`, courses: html`<${Courses} go=${go}/>`, detail: html`<${Detail} id=${pid} go=${go}/>`, live: html`<${Live} go=${go}/>`, assignments: html`<${Assignments}/>`, teacher: html`<${Teacher} go=${go}/>` };
+                v = html`<${Shell} page=${page} pid=${pid} go=${go} dark=${dark} setDark=${setDark}>${B[page] || html`<${Empty} e="🚧" t=${page[0].toUpperCase() + page.slice(1) + ' is coming soon'} d="This area connects to your backend (Firebase/Supabase) later."/>`}<//>`
+            }
+            return html`<div>${v}<div className="ts" aria-live="polite">${toasts.map(t => html`<div key=${t.id} className=${'t' + (t.k === 'er' ? ' er' : '')}>${t.m}</div>`)}</div></div>`
+        }
+        ReactDOM.createRoot(document.getElementById('root')).render(html`<${App}/>`);
+    </script>
+</body>
+
+</html>

@@ -1,484 +1,1039 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Simple Quiz</title>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Simple Quiz</title>
+        <link rel="stylesheet" href="button1.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<style>
-    :root{
-      --panel: #000000;    
-      --panel-2:#0a0dd568;  
-      --text: #e5e7eb;    
-      --shadow: 0 10px 30px rgba(0,0,0,.45);
+    <style>
+        :root {
+            --panel: #000000;
+            --panel-2: #0a0dd568;
+            --text: #e5e7eb;
+            --shadow: 0 10px 30px rgba(0, 0, 0, .45);
         }
-body{
-    background-image:url('photo/pexels-felix-mittermeier-1146134.jpg');
-    background-size: cover;
-    background-position: center;
-    color: white;
-   text-align: center;
-    display:grid; place-items:center;
-    padding: 10px;
-    font-family:Cambria Math;
-}
 
-.quiz{
-    background: linear-gradient(180deg, var(--panel), var(--panel-2));
-    border:1px solid #111827; border-radius:20px; box-shadow:var(--shadow);
-    text-align:center;
-    width:400px;
-    margin:50px;
-    padding:30px;
-}
+        body {
+            background-image: url('photo/pexels-felix-mittermeier-1146134.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
 
-.button {
-  margin: 10px;
-  align-items: center;
-  justify-content: center;
-  outline: none;
-  cursor: pointer;
-  width: 300px;
-  height: 50px;
-  background-image: linear-gradient(to top, #D8D9DB 0%, #fff 80%, #FDFDFD 100%);
-  border-radius: 30px;
-  border: 1px solid #8F9092;
-  transition: all 0.2s ease;
-  font-family: "Source Sans Pro", sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: #606060;
-  text-shadow: 0 1px #fff;
-}
+            color: white;
+            text-align: center;
 
-.button:hover {
-  box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 3px 3px #CECFD1;
-}
+            display: grid;
+            place-items: center;
 
-.button:active {
-  box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
-}
+            padding: 10px;
+            margin: 0;
 
-.button:focus {
-  box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
-}
+            font-family: Cambria Math;
+        }
 
-#next{
-    width: 100px;
-    display:none;
-}
-</style>
+        .quiz {
+            background: linear-gradient(180deg,
+                    var(--panel),
+                    var(--panel-2));
+
+            border: 1px solid #111827;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+
+            text-align: center;
+
+            width: 400px;
+            max-width: 90%;
+
+            margin: 50px;
+            padding: 30px;
+        }
+
+        .button {
+            margin: 10px;
+            align-items: center;
+            justify-content: center;
+
+            outline: none;
+            cursor: pointer;
+
+            width: 300px;
+            max-width: 90%;
+            min-height: 50px;
+
+            background-image: linear-gradient(to top,
+                    #D8D9DB 0%,
+                    #fff 80%,
+                    #FDFDFD 100%);
+
+            border-radius: 30px;
+            border: 1px solid #8F9092;
+
+            transition: all 0.2s ease;
+
+            font-family: "Source Sans Pro", sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+
+            color: #606060;
+            text-shadow: 0 1px #fff;
+        }
+
+        .button:hover {
+            box-shadow:
+                0 4px 3px 1px #FCFCFC,
+                0 6px 8px #D6D7D9,
+                0 -4px 4px #CECFD1,
+                0 -6px 4px #FEFEFE,
+                inset 0 0 3px 3px #CECFD1;
+        }
+
+        .button:active {
+            box-shadow:
+                0 4px 3px 1px #FCFCFC,
+                0 6px 8px #D6D7D9,
+                0 -4px 4px #CECFD1,
+                0 -6px 4px #FEFEFE,
+                inset 0 0 5px 3px #999,
+                inset 0 0 30px #aaa;
+        }
+
+        #next {
+            width: 100px;
+            display: none;
+        }
+
+        /* Correct answer */
+        .correct {
+            background: #28a745 !important;
+            color: white !important;
+            border-color: #28a745 !important;
+            text-shadow: none;
+        }
+
+        /* Wrong answer */
+        .wrong {
+            background: #dc3545 !important;
+            color: white !important;
+            border-color: #dc3545 !important;
+            text-shadow: none;
+        }
+
+        /* Disabled buttons */
+        .disabled {
+            cursor: not-allowed;
+            opacity: 0.9;
+        }
+
+        .review {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .review-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            margin: 12px 0;
+            border-radius: 12px;
+        }
+
+        .your-answer {
+            color: #ff6b6b;
+        }
+
+        .correct-answer {
+            color: #6bff8a;
+        }
+
+        #back-link {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+
+            text-decoration: none;
+            color: white;
+
+            font-size: 30px;
+            font-weight: bold;
+
+            background: transparent;
+            border: none;
+
+            cursor: pointer;
+        }
+
+        #back-link:hover {
+            transform: scale(1.2);
+        }
+    </style>
 </head>
 
 <body>
-    <h1 style="font-family: Comic Sans MS;">📝 Quiz Time! 🎓</h1>
 
-<div class="quiz">
+    <h1 style="font-family: Comic Sans MS;">
+        📝 Quiz Time! 🎓
+    </h1>
 
-<h2 id="question"></h2>
+    <div class="quiz" style="text-align: center;">
 
-<div id="answers"></div>
+        <h2 id="question"></h2>
 
-<h3 id="result"></h3>
+        <div id="answers"></div>
 
-<button id="next" class="button" onclick="nextQuestion()">Next</button>
+        <h3 id="result"></h3>
 
-</div>
-    <button href="main.html" id="back-link" style="position: absolute; top: 30px; left: 30px;"><link rel="stylesheet" href="button1.css">
-      <span >❮</span>
+        <button id="next" class="button" onclick="nextQuestion()">
+            Next
+        </button>
+
+    </div>
+
+
+    <!-- Back Button -->
+    <button href="main.html" id="back-link" style="position: absolute; top: 30px; left: 30px;font-size: medium;">
+        <span >❮</span>
     </button>
-<script>
-$("body").hide().fadeIn(1000);
-
-$("#back-link").click(function(e) {
-    e.preventDefault();
-
-    $("body").fadeOut(1000, function() {
-        window.location = "main.html";
-    });
-});
-
-
-let allQuestions = [
-
-{
-question:"What does CPU stand for?",
-options:["Central Processing Unit","Computer Processing Unit","Central Program Unit","Control Processing Unit"],
-answer:0
-},
-
-{
-question:"Which language is mainly used for web page structure?",
-options:["CSS","HTML","JavaScript","Python"],
-answer:1
-},
-
-{
-question:"Which language is used to style web pages?",
-options:["HTML","Java","CSS","PHP"],
-answer:2
-},
-
-{
-question:"Which language makes web pages interactive?",
-options:["Python","JavaScript","HTML","C"],
-answer:1
-},
-
-{
-question:"Which symbol is used for comments in C?",
-options:["//","<!-- -->","#","**"],
-answer:0
-},
-
-{
-question:"Which function is the entry point of a C program?",
-options:["start()","main()","begin()","run()"],
-answer:1
-},
-
-{
-question:"Which data type stores decimal values in C?",
-options:["int","char","float","bool"],
-answer:2
-},
-
-{
-question:"Which loop executes at least once?",
-options:["for","while","do-while","foreach"],
-answer:2
-},
-
-{
-question:"Which keyword is used to define a class in Java?",
-options:["object","class","new","define"],
-answer:1
-},
-
-{
-question:"Java is a ____ language.",
-options:["Compiled only","Interpreted only","Both compiled and interpreted","Assembly"],
-answer:2
-},
-
-{
-question:"Which company developed Java?",
-options:["Microsoft","Sun Microsystems","Google","IBM"],
-answer:1
-},
-
-{
-question:"Which operator is used for object creation in Java?",
-options:["create","new","class","object"],
-answer:1
-},
-
-{
-question:"Which SQL command retrieves data?",
-options:["GET","SELECT","SHOW","DISPLAY"],
-answer:1
-},
-
-{
-question:"Which SQL command removes a table?",
-options:["DELETE","REMOVE","DROP","CLEAR"],
-answer:2
-},
-
-{
-question:"Primary key must be:",
-options:["Duplicate","Null","Unique","Optional"],
-answer:2
-},
-
-{
-question:"Which SQL clause filters records?",
-options:["ORDER BY","GROUP BY","WHERE","LIMIT"],
-answer:2
-},
-
-{
-question:"Which normal form removes partial dependency?",
-options:["1NF","2NF","3NF","BCNF"],
-answer:1
-},
-
-{
-question:"What does DBMS stand for?",
-options:["Database Management System","Data Backup Management System","Digital Base Management System","Database Main System"],
-answer:0
-},
-
-{
-question:"Which protocol is used to browse websites?",
-options:["FTP","HTTP","SMTP","POP3"],
-answer:1
-},
-
-{
-question:"Which device connects different networks?",
-options:["Switch","Hub","Router","Bridge"],
-answer:2
-},
-
-{
-question:"IP stands for:",
-options:["Internet Protocol","Internal Process","Internet Program","Input Process"],
-answer:0
-},
-
-{
-question:"Which topology connects all devices to a central hub?",
-options:["Ring","Bus","Star","Mesh"],
-answer:2
-},
-
-{
-question:"Which operating system is open source?",
-options:["Windows","Linux","macOS","DOS"],
-answer:1
-},
-
-{
-question:"Which scheduling algorithm gives the shortest job first?",
-options:["FCFS","Round Robin","SJF","Priority"],
-answer:2
-},
-
-{
-question:"Which memory is volatile?",
-options:["ROM","Hard Disk","RAM","SSD"],
-answer:2
-},
-
-{
-question:"Which is not an operating system?",
-options:["Linux","Windows","Oracle","Ubuntu"],
-answer:2
-},
-
-{
-question:"Binary number system uses:",
-options:["2 digits","8 digits","10 digits","16 digits"],
-answer:0
-},
-
-{
-question:"Decimal number 10 in binary is:",
-options:["1010","1001","1111","1100"],
-answer:0
-},
-
-{
-question:"Which gate gives output 1 only when both inputs are 1?",
-options:["OR","NOT","AND","XOR"],
-answer:2
-},
-
-{
-question:"Which number system uses digits 0-7?",
-options:["Binary","Decimal","Octal","Hexadecimal"],
-answer:2
-},
-
-{
-question:"Which software is used to create presentations?",
-options:["MS Word","MS Excel","MS PowerPoint","MS Access"],
-answer:2
-},
-
-{
-question:"Excel is mainly used for:",
-options:["Word processing","Spreadsheets","Presentations","Programming"],
-answer:1
-},
-
-{
-question:"Which key refreshes a webpage?",
-options:["F2","F5","F7","F12"],
-answer:1
-},
-
-{
-question:"Which shortcut copies selected text?",
-options:["Ctrl+X","Ctrl+V","Ctrl+C","Ctrl+Z"],
-answer:2
-},
-
-{
-question:"HTML stands for ________.",
-options:["Hyper Text Markup Language","High Text Machine Language","Hyper Transfer Markup Language","Home Tool Markup Language"],
-answer:0
-},
-
-{
-question:"What is HTML used for?",
-options:["Creating web pages","Managing databases","Writing programs","Designing graphics"],
-answer:0
-},
-
-{
-question:"Which CSS property changes text color?",
-options:["background","font-color","color","text"],
-answer:2
-},
-
-{
-question:"Which CSS property changes background color?",
-options:["bgcolor","background-color","background","color"],
-answer:1
-},
-
-{
-question:"PHP is a:",
-options:["Database","Server-side scripting language","Operating System","Browser"],
-answer:1
-},
-
-{
-question:"Which symbol is used to start a PHP variable?",
-options:["#","@","$","%"],
-answer:2
-},
-
-{
-question:"Python uses which keyword to define a function?",
-options:["func","function","define","def"],
-answer:3
-},
-
-{
-question:"Which keyword is used for inheritance in C++?",
-options:["inherits","extends",":","using"],
-answer:2
-},
-
-{
-question:"Which sorting algorithm repeatedly swaps adjacent elements?",
-options:["Merge Sort","Quick Sort","Bubble Sort","Heap Sort"],
-answer:2
-},
-
-{
-question:"Which data structure follows FIFO?",
-options:["Stack","Queue","Tree","Graph"],
-answer:1
-},
-
-{
-question:"Which data structure follows LIFO?",
-options:["Queue","Array","Stack","Linked List"],
-answer:2
-},
-
-{
-question:"Which searching algorithm requires sorted data?",
-options:["Linear Search","Binary Search","DFS","BFS"],
-answer:1
-},
-
-{
-question:"Which software development model follows sequential phases?",
-options:["Agile","Spiral","Waterfall","RAD"],
-answer:2
-},
-
-{
-question:"Which protocol is used for email transfer?",
-options:["HTTP","SMTP","FTP","DNS"],
-answer:1
-},
-
-{
-question:"Which database language is used to insert records?",
-options:["INSERT","UPDATE","SELECT","CREATE"],
-answer:0
-},
-
-{
-question:"What does URL stand for?",
-options:["Uniform Resource Locator","Universal Resource Link","Unique Record Locator","Universal Reference Link"],
-answer:0
-}
-
-];
-
-
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
-
-let questions = shuffle([...allQuestions]).slice(0, 10);
-
-let current = 0;
-let score = 0;
-
-showQuestion();
-
-function showQuestion(){
-
-document.getElementById("question").innerHTML =
-questions[current].question;
-
-document.getElementById("result").innerHTML = "";
-
-document.getElementById("next").style.display = "none";
-
-let text = "";
-
-for(let i=0;i<questions[current].options.length;i++){
-text +=
-`<button class='button' onclick="check(${i})">
-${questions[current].options[i]}
-</button>`;
-
-}
-
-document.getElementById("answers").innerHTML = text;
-
-}
-function check(choice){
-
-if(choice == questions[current].answer){
-
-document.getElementById("result").innerHTML = "✅ Correct!";
-score++;
-
-}else{
-
-document.getElementById("result").innerHTML =
-"❌ Wrong!<br>Correct answer is: " +
-questions[current].options[questions[current].answer];
-
-}
-
-document.getElementById("next").style.display = "block";
-
-}
-
-function nextQuestion(){
-
-current++;
-
-if(current < questions.length){
-
-showQuestion();
-
-}else{
-
-document.querySelector(".quiz").innerHTML =
-"<h2>Quiz Finished!</h2>" +
-"<h3>Your Score: " + score + " / " + questions.length + "</h3>" +
-"<button class='button' onclick='location.reload()'>Play Again</button>";
-
-}
-
-}
-
-</script>
+
+
+    <script>
+
+        $("body").hide().fadeIn(1000);
+        $("#back-link").click(function(e) {
+            e.preventDefault();
+            $("body").fadeOut(1000, function() {
+                window.location = "main.html";
+            });
+        });
+
+
+        /* ------------------------------
+           Questions
+        ------------------------------ */
+
+        let allQuestions = [
+
+            {
+                question: "What does CPU stand for?",
+                options: [
+                    "Central Processing Unit",
+                    "Computer Processing Unit",
+                    "Central Program Unit",
+                    "Control Processing Unit"
+                ],
+                answer: 0
+            },
+
+            {
+                question: "Which language is mainly used for web page structure?",
+                options: [
+                    "CSS",
+                    "HTML",
+                    "JavaScript",
+                    "Python"
+                ],
+                answer: 1
+            },
+
+            {
+                question: "Which language is used to style web pages?",
+                options: [
+                    "HTML",
+                    "Java",
+                    "CSS",
+                    "PHP"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "Which language makes web pages interactive?",
+                options: [
+                    "Python",
+                    "JavaScript",
+                    "HTML",
+                    "C"
+                ],
+                answer: 1
+            },
+
+            {
+                question: "Which symbol is used for comments in C?",
+                options: [
+                    "//",
+                    "<!-- -->",
+                    "#",
+                    "**"
+                ],
+                answer: 0
+            },
+
+            {
+                question: "Which function is the entry point of a C program?",
+                options: [
+                    "start()",
+                    "main()",
+                    "begin()",
+                    "run()"
+                ],
+                answer: 1
+            },
+
+            {
+                question: "Which data type stores decimal values in C?",
+                options: [
+                    "int",
+                    "char",
+                    "float",
+                    "bool"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "Which loop executes at least once?",
+                options: [
+                    "for",
+                    "while",
+                    "do-while",
+                    "foreach"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "Which keyword is used to define a class in Java?",
+                options: [
+                    "object",
+                    "class",
+                    "new",
+                    "define"
+                ],
+                answer: 1
+            },
+
+            {
+                question: "Java is a ____ language.",
+                options: [
+                    "Compiled only",
+                    "Interpreted only",
+                    "Both compiled and interpreted",
+                    "Assembly"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "Which company developed Java?",
+                options: [
+                    "Microsoft",
+                    "Sun Microsystems",
+                    "Google",
+                    "IBM"
+                ],
+                answer: 1
+            },
+
+            {
+                question: "Which operator is used for object creation in Java?",
+                options: [
+                    "create",
+                    "new",
+                    "class",
+                    "object"
+                ],
+                answer: 1
+            },
+
+            {
+                question: "Which SQL command retrieves data?",
+                options: [
+                    "GET",
+                    "SELECT",
+                    "SHOW",
+                    "DISPLAY"
+                ],
+                answer: 1
+            },
+
+            {
+                question: "Which SQL command removes a table?",
+                options: [
+                    "DELETE",
+                    "REMOVE",
+                    "DROP",
+                    "CLEAR"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "Primary key must be:",
+                options: [
+                    "Duplicate",
+                    "Null",
+                    "Unique",
+                    "Optional"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "Which SQL clause filters records?",
+                options: [
+                    "ORDER BY",
+                    "GROUP BY",
+                    "WHERE",
+                    "LIMIT"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "Which normal form removes partial dependency?",
+                options: [
+                    "1NF",
+                    "2NF",
+                    "3NF",
+                    "BCNF"
+                ],
+                answer: 1
+            },
+
+            {
+                question: "What does DBMS stand for?",
+                options: [
+                    "Database Management System",
+                    "Data Backup Management System",
+                    "Digital Base Management System",
+                    "Database Main System"
+                ],
+                answer: 0
+            },
+
+            {
+                question: "Which protocol is used to browse websites?",
+                options: [
+                    "FTP",
+                    "HTTP",
+                    "SMTP",
+                    "POP3"
+                ],
+                answer: 1
+            },
+
+            {
+                question: "Which device connects different networks?",
+                options: [
+                    "Switch",
+                    "Hub",
+                    "Router",
+                    "Bridge"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "IP stands for:",
+                options: [
+                    "Internet Protocol",
+                    "Internal Process",
+                    "Internet Program",
+                    "Input Process"
+                ],
+                answer: 0
+            },
+
+            {
+                question: "Which topology connects all devices to a central hub?",
+                options: [
+                    "Ring",
+                    "Bus",
+                    "Star",
+                    "Mesh"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "Which operating system is open source?",
+                options: [
+                    "Windows",
+                    "Linux",
+                    "macOS",
+                    "DOS"
+                ],
+                answer: 1
+            },
+
+            {
+                question: "Which scheduling algorithm gives the shortest job first?",
+                options: [
+                    "FCFS",
+                    "Round Robin",
+                    "SJF",
+                    "Priority"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "Which memory is volatile?",
+                options: [
+                    "ROM",
+                    "Hard Disk",
+                    "RAM",
+                    "SSD"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "Which is not an operating system?",
+                options: [
+                    "Linux",
+                    "Windows",
+                    "Oracle",
+                    "Ubuntu"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "Binary number system uses:",
+                options: [
+                    "2 digits",
+                    "8 digits",
+                    "10 digits",
+                    "16 digits"
+                ],
+                answer: 0
+            },
+
+            {
+                question: "Decimal number 10 in binary is:",
+                options: [
+                    "1010",
+                    "1001",
+                    "1111",
+                    "1100"
+                ],
+                answer: 0
+            },
+
+            {
+                question: "Which gate gives output 1 only when both inputs are 1?",
+                options: [
+                    "OR",
+                    "NOT",
+                    "AND",
+                    "XOR"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "Which number system uses digits 0-7?",
+                options: [
+                    "Binary",
+                    "Decimal",
+                    "Octal",
+                    "Hexadecimal"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "Which software is used to create presentations?",
+                options: [
+                    "MS Word",
+                    "MS Excel",
+                    "MS PowerPoint",
+                    "MS Access"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "Excel is mainly used for:",
+                options: [
+                    "Word processing",
+                    "Spreadsheets",
+                    "Presentations",
+                    "Programming"
+                ],
+                answer: 1
+            },
+
+            {
+                question: "Which key refreshes a webpage?",
+                options: [
+                    "F2",
+                    "F5",
+                    "F7",
+                    "F12"
+                ],
+                answer: 1
+            },
+
+            {
+                question: "Which shortcut copies selected text?",
+                options: [
+                    "Ctrl+X",
+                    "Ctrl+V",
+                    "Ctrl+C",
+                    "Ctrl+Z"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "HTML stands for ________.",
+                options: [
+                    "Hyper Text Markup Language",
+                    "High Text Machine Language",
+                    "Hyper Transfer Markup Language",
+                    "Home Tool Markup Language"
+                ],
+                answer: 0
+            },
+
+            {
+                question: "What is HTML used for?",
+                options: [
+                    "Creating web pages",
+                    "Managing databases",
+                    "Writing programs",
+                    "Designing graphics"
+                ],
+                answer: 0
+            },
+
+            {
+                question: "Which CSS property changes text color?",
+                options: [
+                    "background",
+                    "font-color",
+                    "color",
+                    "text"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "Which CSS property changes background color?",
+                options: [
+                    "bgcolor",
+                    "background-color",
+                    "background",
+                    "color"
+                ],
+                answer: 1
+            },
+
+            {
+                question: "PHP is a:",
+                options: [
+                    "Database",
+                    "Server-side scripting language",
+                    "Operating System",
+                    "Browser"
+                ],
+                answer: 1
+            },
+
+            {
+                question: "Which symbol is used to start a PHP variable?",
+                options: [
+                    "#",
+                    "@",
+                    "$",
+                    "%"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "Python uses which keyword to define a function?",
+                options: [
+                    "func",
+                    "function",
+                    "define",
+                    "def"
+                ],
+                answer: 3
+            },
+
+            {
+                question: "Which keyword is used for inheritance in C++?",
+                options: [
+                    "inherits",
+                    "extends",
+                    ":",
+                    "using"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "Which sorting algorithm repeatedly swaps adjacent elements?",
+                options: [
+                    "Merge Sort",
+                    "Quick Sort",
+                    "Bubble Sort",
+                    "Heap Sort"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "Which data structure follows FIFO?",
+                options: [
+                    "Stack",
+                    "Queue",
+                    "Tree",
+                    "Graph"
+                ],
+                answer: 1
+            },
+
+            {
+                question: "Which data structure follows LIFO?",
+                options: [
+                    "Queue",
+                    "Array",
+                    "Stack",
+                    "Linked List"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "Which searching algorithm requires sorted data?",
+                options: [
+                    "Linear Search",
+                    "Binary Search",
+                    "DFS",
+                    "BFS"
+                ],
+                answer: 1
+            },
+
+            {
+                question: "Which software development model follows sequential phases?",
+                options: [
+                    "Agile",
+                    "Spiral",
+                    "Waterfall",
+                    "RAD"
+                ],
+                answer: 2
+            },
+
+            {
+                question: "Which protocol is used for email transfer?",
+                options: [
+                    "HTTP",
+                    "SMTP",
+                    "FTP",
+                    "DNS"
+                ],
+                answer: 1
+            },
+
+            {
+                question: "Which database language is used to insert records?",
+                options: [
+                    "INSERT",
+                    "UPDATE",
+                    "SELECT",
+                    "CREATE"
+                ],
+                answer: 0
+            },
+
+            {
+                question: "What does URL stand for?",
+                options: [
+                    "Uniform Resource Locator",
+                    "Universal Resource Link",
+                    "Unique Record Locator",
+                    "Universal Reference Link"
+                ],
+                answer: 0
+            }
+
+        ];
+
+
+        /* ------------------------------
+           Shuffle Questions
+        ------------------------------ */
+
+        function shuffle(array) {
+
+            for (let i = array.length - 1; i > 0; i--) {
+
+                let j = Math.floor(
+                    Math.random() * (i + 1)
+                );
+
+                [array[i], array[j]] =
+                    [array[j], array[i]];
+            }
+
+            return array;
+        }
+
+
+        /* ------------------------------
+           Select 10 Random Questions
+        ------------------------------ */
+
+        let questions =
+            shuffle([...allQuestions]).slice(0, 10);
+
+
+        let current = 0;
+        let score = 0;
+
+        // Store wrong answers
+        let wrongAnswers = [];
+
+
+        /* ------------------------------
+           Show Question
+        ------------------------------ */
+
+        showQuestion();
+
+
+        function showQuestion() {
+
+            document.getElementById("question").innerHTML =
+                questions[current].question;
+
+            document.getElementById("result").innerHTML = "";
+
+            document.getElementById("next").style.display =
+                "none";
+
+
+            let text = "";
+
+
+            for (
+                let i = 0;
+                i < questions[current].options.length;
+                i++
+            ) {
+
+                text += `
+                <button
+                    class="button answer-button"
+                    onclick="check(${i})">
+
+                    ${questions[current].options[i]}
+
+                </button>
+            `;
+            }
+
+
+            document.getElementById("answers").innerHTML =
+                text;
+        }
+
+
+        /* ------------------------------
+           Check Answer
+        ------------------------------ */
+
+        function check(choice) {
+
+            let buttons =
+                document.querySelectorAll(".answer-button");
+
+
+            // Disable all answer buttons
+            buttons.forEach(function (button) {
+
+                button.disabled = true;
+                button.classList.add("disabled");
+
+            });
+
+
+            // Show correct answer
+            buttons[questions[current].answer]
+                .classList.add("correct");
+
+
+            if (
+                choice ==
+                questions[current].answer
+            ) {
+
+                document.getElementById("result").innerHTML =
+                    "✅ Correct!";
+
+                score++;
+
+            } else {
+
+                // Mark selected answer wrong
+                buttons[choice].classList.add("wrong");
+
+
+                document.getElementById("result").innerHTML =
+                    "❌ Wrong!";
+
+
+                // Save wrong answer
+                wrongAnswers.push({
+
+                    question:
+                        questions[current].question,
+
+                    yourAnswer:
+                        questions[current].options[choice],
+
+                    correctAnswer:
+                        questions[current]
+                            .options[
+                        questions[current].answer
+                        ]
+
+                });
+            }
+
+
+            // Show Next button
+            document.getElementById("next").style.display =
+                "inline-block";
+        }
+
+
+        /* ------------------------------
+           Next Question
+        ------------------------------ */
+
+        function nextQuestion() {
+
+            current++;
+
+
+            if (current < questions.length) {
+
+                showQuestion();
+
+            } else {
+
+                showFinalResult();
+
+            }
+        }
+
+
+        /* ------------------------------
+           Final Result
+        ------------------------------ */
+
+        function showFinalResult() {
+
+            let review = "";
+
+
+            // Perfect score
+            if (wrongAnswers.length === 0) {
+
+                review = `
+                <div class="review">
+
+                    <h3>🎉 Perfect Score!</h3>
+
+                    <p>
+                        You got every question correct!
+                    </p>
+
+                </div>
+            `;
+
+            } else {
+
+                review = `
+                <div class="review">
+
+                    <h3>
+                        ❌ Questions to Review
+                    </h3>
+            `;
+
+
+                wrongAnswers.forEach(
+                    function (item, index) {
+
+                        review += `
+
+                        <div class="review-item">
+
+                            <strong>
+                                ${index + 1}.
+                                ${item.question}
+                            </strong>
+
+                            <p class="your-answer">
+                                ❌ Your answer:
+                                ${item.yourAnswer}
+                            </p>
+
+                            <p class="correct-answer">
+                                ✅ Correct answer:
+                                ${item.correctAnswer}
+                            </p>
+
+                        </div>
+
+                    `;
+                    }
+                );
+
+
+                review += `
+                </div>
+            `;
+            }
+
+
+            // Replace quiz with final result
+            document.querySelector(".quiz").innerHTML = `
+
+            <h2>
+                🎉 Quiz Finished!
+            </h2>
+
+            <h3>
+                Your Score:
+                ${score} / ${questions.length}
+            </h3>
+
+            ${review}
+
+            <button
+                class="button"
+                onclick="location.reload()">
+
+                🔄 Play Again
+
+            </button>
+
+        `;
+        }
+
+
+
+    </script>
 
 </body>
+
 </html>
